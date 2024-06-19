@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="first"
-run/main_scene="res://first.tscn"
+run/main_scene="res://palace.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 

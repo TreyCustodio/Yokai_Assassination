@@ -1,22 +1,22 @@
 [gd_scene load_steps=20 format=3 uid="uid://dw6c5rp02dtgh"]
 
-[ext_resource type="Script" path="res://first.gd" id="1_kroi5"]
-[ext_resource type="Texture2D" uid="uid://d1fyaog4no0aa" path="res://tilesets_edit/8_cave.png" id="1_ngydq"]
-[ext_resource type="Texture2D" uid="uid://bli1eisfaksam" path="res://backgrounds/Clouds/Clouds 7/1.png" id="2_06pmm"]
-[ext_resource type="Texture2D" uid="uid://du4bygaaf7cks" path="res://tilesets_edit/Chinese Temple.png" id="2_q46lw"]
-[ext_resource type="PackedScene" uid="uid://o0yecji1qpwx" path="res://scenes/player.tscn" id="3_2fswg"]
-[ext_resource type="Texture2D" uid="uid://bntftyu10x2jl" path="res://tilesets_edit/10_dirt.png" id="3_4w4e1"]
-[ext_resource type="Texture2D" uid="uid://b3emu4ks1vmni" path="res://backgrounds/Clouds/Clouds 7/4.png" id="3_b77d0"]
-[ext_resource type="Texture2D" uid="uid://cnktle6wihlhh" path="res://tilesets_edit/7_grass_cliff.png" id="4_h3kkf"]
-[ext_resource type="Texture2D" uid="uid://oirkppwn5m1c" path="res://backgrounds/Clouds/Clouds 7/3.png" id="4_l07kb"]
-[ext_resource type="Texture2D" uid="uid://ccx2jisaex1nr" path="res://tilesets_edit/3_plants.png" id="5_efce4"]
-[ext_resource type="AudioStream" uid="uid://bw2172mqqbaaa" path="res://bgm/shinobi.mp3" id="11_tlmnj"]
-[ext_resource type="PackedScene" uid="uid://cgbw0ebla4o83" path="res://scenes/npc.tscn" id="12_0nv4v"]
-[ext_resource type="AudioStream" uid="uid://cev4riu3qeany" path="res://sfx/emeydies.wav" id="12_37bds"]
+[ext_resource type="Script" path="res://first.gd" id="1_p3um0"]
+[ext_resource type="Texture2D" uid="uid://bli1eisfaksam" path="res://backgrounds/Clouds/Clouds 7/1.png" id="2_l758d"]
+[ext_resource type="Texture2D" uid="uid://oirkppwn5m1c" path="res://backgrounds/Clouds/Clouds 7/3.png" id="3_c282u"]
+[ext_resource type="Texture2D" uid="uid://b3emu4ks1vmni" path="res://backgrounds/Clouds/Clouds 7/4.png" id="4_1hru0"]
+[ext_resource type="Texture2D" uid="uid://d1fyaog4no0aa" path="res://tilesets_edit/8_cave.png" id="5_5oqu2"]
+[ext_resource type="Texture2D" uid="uid://du4bygaaf7cks" path="res://tilesets_edit/Chinese Temple.png" id="6_3ssto"]
+[ext_resource type="Texture2D" uid="uid://bntftyu10x2jl" path="res://tilesets_edit/10_dirt.png" id="7_lrrqg"]
+[ext_resource type="Texture2D" uid="uid://cnktle6wihlhh" path="res://tilesets_edit/7_grass_cliff.png" id="8_u1rmp"]
+[ext_resource type="Texture2D" uid="uid://ccx2jisaex1nr" path="res://tilesets_edit/3_plants.png" id="9_ev72q"]
+[ext_resource type="PackedScene" uid="uid://cgbw0ebla4o83" path="res://scenes/npc.tscn" id="10_qlgaw"]
+[ext_resource type="PackedScene" uid="uid://o0yecji1qpwx" path="res://scenes/player.tscn" id="11_x1ltt"]
+[ext_resource type="AudioStream" uid="uid://bw2172mqqbaaa" path="res://bgm/shinobi.mp3" id="12_gooy5"]
+[ext_resource type="AudioStream" uid="uid://cev4riu3qeany" path="res://sfx/emeydies.wav" id="13_ggu7u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1xf62"]
 resource_name = "cave"
-texture = ExtResource("1_ngydq")
+texture = ExtResource("5_5oqu2")
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
@@ -1081,7 +1081,7 @@ texture = ExtResource("1_ngydq")
 11:15/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wp5wr"]
-texture = ExtResource("2_q46lw")
+texture = ExtResource("6_3ssto")
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
@@ -1307,7 +1307,7 @@ texture = ExtResource("2_q46lw")
 11:5/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q7wa5"]
-texture = ExtResource("3_4w4e1")
+texture = ExtResource("7_lrrqg")
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
@@ -1793,7 +1793,7 @@ texture = ExtResource("3_4w4e1")
 9:15/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gt7ks"]
-texture = ExtResource("4_h3kkf")
+texture = ExtResource("8_u1rmp")
 22:0/0 = 0
 22:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 22:0/0/physics_layer_0/angular_velocity = 0.0
@@ -2366,7 +2366,7 @@ texture = ExtResource("4_h3kkf")
 27:11/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qx1ob"]
-texture = ExtResource("5_efce4")
+texture = ExtResource("9_ev72q")
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
@@ -2994,8 +2994,8 @@ sources/3 = SubResource("TileSetAtlasSource_q7wa5")
 sources/4 = SubResource("TileSetAtlasSource_gt7ks")
 sources/5 = SubResource("TileSetAtlasSource_qx1ob")
 
-[node name="Node2D" type="Node2D"]
-script = ExtResource("1_kroi5")
+[node name="palace" type="Node2D" groups=["rooms"]]
+script = ExtResource("1_p3um0")
 
 [node name="background" type="TextureRect" parent="."]
 texture_filter = 1
@@ -3006,21 +3006,21 @@ offset_right = 1460.0
 offset_bottom = 700.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_06pmm")
+texture = ExtResource("2_l758d")
 
 [node name="clouds2" type="TextureRect" parent="background"]
 layout_mode = 0
 offset_top = 1.0
 offset_right = 1460.0
 offset_bottom = 700.0
-texture = ExtResource("4_l07kb")
+texture = ExtResource("3_c282u")
 
 [node name="clouds" type="TextureRect" parent="background"]
 layout_mode = 0
 offset_top = 1.0
 offset_right = 1460.0
 offset_bottom = 700.0
-texture = ExtResource("3_b77d0")
+texture = ExtResource("4_1hru0")
 
 [node name="clouds2_parallax" type="TextureRect" parent="background"]
 layout_mode = 0
@@ -3028,7 +3028,7 @@ offset_left = 1460.0
 offset_top = 1.0
 offset_right = 2920.0
 offset_bottom = 700.0
-texture = ExtResource("4_l07kb")
+texture = ExtResource("3_c282u")
 
 [node name="clouds_parallax" type="TextureRect" parent="background"]
 texture_filter = 1
@@ -3037,7 +3037,7 @@ offset_left = 1460.0
 offset_top = 1.0
 offset_right = 2920.0
 offset_bottom = 700.0
-texture = ExtResource("3_b77d0")
+texture = ExtResource("4_1hru0")
 
 [node name="TileMap" type="TileMap" parent="."]
 texture_filter = 1
@@ -3049,16 +3049,16 @@ layer_0/tile_data = PackedInt32Array(655360, 3, 0, 655361, 65539, 0, 655362, 131
 
 [node name="enemies" type="Node" parent="."]
 
-[node name="npc" parent="enemies" instance=ExtResource("12_0nv4v")]
+[node name="npc" parent="enemies" instance=ExtResource("10_qlgaw")]
 position = Vector2(822, 465)
 
-[node name="player" parent="." instance=ExtResource("3_2fswg")]
+[node name="player" parent="." instance=ExtResource("11_x1ltt")]
 top_level = true
 position = Vector2(729, 465)
 scale = Vector2(1, 1.01231)
 
 [node name="bgm" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("11_tlmnj")
+stream = ExtResource("12_gooy5")
 
 [node name="enemydeath" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("12_37bds")
+stream = ExtResource("13_ggu7u")

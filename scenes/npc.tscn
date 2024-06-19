@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://cgbw0ebla4o83"]
+[gd_scene load_steps=46 format=3 uid="uid://cgbw0ebla4o83"]
 
 [ext_resource type="Script" path="res://scenes/npc.gd" id="1_5d6s0"]
 [ext_resource type="Texture2D" uid="uid://dicsb88julmd2" path="res://sprites/samurai_idle.png" id="1_jy0yx"]
@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://gx1lhcn5xudk" path="res://sfx/enemyhurt.wav" id="4_3b2ol"]
 [ext_resource type="Script" path="res://scenes/hitzone.gd" id="4_h2gr4"]
 [ext_resource type="Texture2D" uid="uid://2crcfvimoj6j" path="res://sprites/z.png" id="5_2otas"]
+[ext_resource type="Script" path="res://scenes/speech.gd" id="7_rhvcc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r3o6w"]
 atlas = ExtResource("1_jy0yx")
@@ -326,6 +327,9 @@ scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_pt17l")
 frame = 1
 frame_progress = 0.0826311
+
+[node name="speech" type="Node" parent="."]
+script = ExtResource("7_rhvcc")
 
 [connection signal="area_entered" from="hitzone" to="." method="_on_hitzone_area_entered"]
 [connection signal="timeout" from="iframe_timer" to="." method="_on_iframe_timer_timeout"]

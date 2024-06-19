@@ -20,6 +20,11 @@ extends CharacterBody2D
 @onready var pauseMenu = $pauseMenu
 @onready var menuCursor = $menuCursor
 @onready var menuSelect = $menuSelect
+@onready var pause_start = $pauseMenu/pause_start
+@onready var pause_close = $pauseMenu/pause_close
+@onready var text = $textbox/text
+
+#Areas
 @onready var weapons = $weapons
 @onready var interact_rect = $interaction/interact_rect
 @onready var interaction = $interaction
@@ -29,7 +34,8 @@ extends CharacterBody2D
 const SPEED = 300.0
 const JUMP_VELOCITY = -900.0
 var pause = false
-var attackMode = "spam"
+var attackMode = "spam" #spam, hold
+var textMode = "medium" #slow, medium, fast
 var direction = 1
 var gravity = 3000
 var highlight = Vector2(0,0)
@@ -37,6 +43,11 @@ var highlight = Vector2(0,0)
 #var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 ##States
+#Pause states
+var inMain = true
+var selectingMode = false
+var selectingText = false
+#Player states
 var key_lock = false
 var speaking = false
 var backstepping = false
@@ -62,11 +73,18 @@ func keyUnlock():
 	key_lock = false
 	
 func unpause():
+	pause_close.play()
+	inMain = true
+	selectingMode = false
+	selectingText = false
+	pauseMenu.frame = 0
+	highlight.y = 0
 	pause = false
 	pauseMenu.visible = false
 	keyUnlock()
 
 func airSlash():
+	slashfx.play()
 	jump_start = false
 	airslashing = true
 	samurai.animation = "slashing"
@@ -118,7 +136,7 @@ func setFullscreen():
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 		
-func setText():
+func setHp():
 	var number = str(hp)
 	health_number.text = "	" + number
 
@@ -161,15 +179,19 @@ func stopBackstep():
 	backstepping = false
 
 func setInteractable(text):
-	displayText = text
 	interactable = true
+	displayText = text
+	
 
 func unsetInteractable():
 	displayText = ""
 	interactable = false
 	
 func startSpeech():
+	text.play()
+	textbox.setText(displayText)
 	textbox.visible = true
+	textbox.frame = 0
 	textbox.play("start")
 	speaking = true
 	keyLock()
@@ -182,6 +204,7 @@ func stop():
 	velocity *= 0
 
 func pauseGame():
+	pause_start.play()
 	#reset states
 	slashing = false
 	samurai.play("idle")
@@ -190,29 +213,115 @@ func pauseGame():
 	pause = true
 	
 func pauseRoutine():
+	#Unpause
 	if Input.is_action_just_pressed("pause"):
 		unpause()
 		return
-	if Input.is_action_just_pressed("jump"):
-		menuSelect.play()
-
+	#Attack Mode / Text Speed
+	if inMain:
+		if Input.is_action_just_pressed("jump"):
+			menuSelect.play()
+			#Go to Attack settings
+			if highlight.y == 0:
+				if attackMode == "spam":
+					pauseMenu.frame = 2
+					highlight.y = 0
+				elif attackMode == "hold":
+					pauseMenu.frame = 3
+					highlight.y = 1
+				selectingMode = true
+				inMain = false
+			#Go to Text settings
+			elif highlight.y == 1:
+				inMain = false
+				selectingText = true
+				if textMode == "medium":
+					highlight.y = 1
+					pauseMenu.frame = 5
+				elif textMode == "fast":
+					highlight.y = 2
+					pauseMenu.frame = 6
+				elif textMode == "slow":
+					highlight.y = 0
+					pauseMenu.frame = 4
+			return
+		#Move cursor
+		if highlight.y == 0:
+			if Input.is_action_just_pressed("down"):
+				menuCursor.play()
+				pauseMenu.frame = 1
+				highlight.y = 1
 		
-	if highlight.y == 0:
-		if Input.is_action_just_pressed("down"):
+		elif highlight.y == 1:
+			if Input.is_action_just_pressed("up"):
+				menuCursor.play()
+				highlight.y = 0
+				pauseMenu.frame = 0
+	#Spam / Hold
+	elif selectingMode:
+		if Input.is_action_just_pressed("slash"):
 			menuCursor.play()
-			attackMode = "hold"
-			pauseMenu.frame = 1
-			highlight.y += 1
-	
-	elif highlight.y == 1:
-		if Input.is_action_just_pressed("up"):
-			menuCursor.play()
-			attackMode = "spam"
-			highlight.y -= 1
+			selectingMode = false
+			inMain = true
 			pauseMenu.frame = 0
+			highlight.y = 0
+			return
+			
+		if highlight.y == 0:
+			if Input.is_action_just_pressed("down"):
+				menuSelect.play()
+				attackMode = "hold"
+				pauseMenu.frame = 3
+				highlight.y = 1
 		
+		elif highlight.y == 1:
+			if Input.is_action_just_pressed("up"):
+				menuSelect.play()
+				attackMode = "spam"
+				highlight.y = 0
+				pauseMenu.frame = 2
+				
+	elif selectingText:
+		if Input.is_action_just_pressed("slash"):
+			menuCursor.play()
+			selectingText = false
+			inMain = true
+			pauseMenu.frame = 0
+			highlight.y = 0
+			return
+		
+		#On slow
+		if highlight.y == 0:
+			if Input.is_action_just_pressed("down"):
+				menuSelect.play()
+				textMode = "medium"
+				pauseMenu.frame = 5
+				highlight.y = 1
+		
+		#On medium
+		elif highlight.y == 1:
+			if Input.is_action_just_pressed("up"):
+				menuSelect.play()
+				textMode = "slow"
+				highlight.y = 0
+				pauseMenu.frame = 4
+			elif Input.is_action_just_pressed("down"):
+				menuSelect.play()
+				textMode = "fast"
+				highlight.y = 2
+				pauseMenu.frame = 6
+		
+		#On fast
+		elif highlight.y == 2:
+			if Input.is_action_just_pressed("up"):
+				menuSelect.play()
+				textMode = "medium"
+				highlight.y = 1
+				pauseMenu.frame = 5
 		
 func handleEvents(frame):
+	if speaking:
+		return
 	if interactable:
 		if Input.is_action_just_pressed("jump"):
 			startSpeech()
@@ -238,7 +347,7 @@ func handleEvents(frame):
 			
 		return
 	elif jumping and not airslashing:
-		if not is_on_floor() and Input.is_action_just_pressed("slash"):
+		if not is_on_floor() and Input.is_action_pressed("slash"):
 			airSlash()
 			return
 		
@@ -252,7 +361,7 @@ func handleEvents(frame):
 		
 		if not jumping and not airslashing and not backstepping:
 			#Slash
-			if Input.is_action_just_pressed("slash"):
+			if Input.is_action_pressed("slash"):
 				slash()
 				return
 			
@@ -291,12 +400,6 @@ func handleEvents(frame):
 
 
 func _physics_process(delta):
-	if interaction.interactable:
-		if not interactable:
-			setInteractable(interaction.displayText)
-			return
-	elif interactable:
-		unsetInteractable()
 	if pause:
 		pauseRoutine()
 		return
@@ -322,12 +425,12 @@ func _physics_process(delta):
 	##Animation control
 	if speaking:
 		if textbox.animation == "loop":
-			pass
+			return
 		elif textbox.get_frame() == 5:
 			textbox.animation = "loop"
-			if textbox.get_frame() == 3:
-				textbox.animation = "pause"
-				
+			textbox.setDisplay()
+		
+		return
 	if not backstepping:
 		var isLeft = velocity.x < 0
 		var isRight = velocity.x > 0
@@ -379,10 +482,12 @@ func _physics_process(delta):
 			if Input.is_action_just_released("slash"):
 				stopSlash()
 			else:
-				if not slashfx.playing:
-					slashfx.play()
-				if sword_rect.disabled:
-					sword_rect.disabled = false
+				if frame == 6:
+					if sword_rect.disabled:
+						sword_rect.disabled = false
+					if not slashfx.playing:
+						slashfx.play()
+					
 					
 	elif walking or backstepping:
 		samurai.animation = "running"
@@ -397,7 +502,7 @@ func _physics_process(delta):
 	
 	if not key_lock:
 		move_and_slide()
-	setText()
+	setHp()
 
 
 

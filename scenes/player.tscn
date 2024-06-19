@@ -1,4 +1,4 @@
-[gd_scene load_steps=113 format=3 uid="uid://o0yecji1qpwx"]
+[gd_scene load_steps=132 format=3 uid="uid://o0yecji1qpwx"]
 
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_q1gbx"]
 [ext_resource type="Texture2D" uid="uid://dicsb88julmd2" path="res://sprites/samurai_idle.png" id="2_htcw4"]
@@ -13,10 +13,21 @@
 [ext_resource type="AudioStream" uid="uid://brtf08h523kdv" path="res://sfx/land.wav" id="9_wq0rg"]
 [ext_resource type="Texture2D" uid="uid://cpg7txnhl71xl" path="res://sprites/pause_screen.png" id="12_dmnnn"]
 [ext_resource type="Script" path="res://scenes/weapons.gd" id="12_ga07i"]
+[ext_resource type="Script" path="res://scenes/textbox.gd" id="12_vqir6"]
 [ext_resource type="Script" path="res://scenes/interaction.gd" id="13_bp5c1"]
 [ext_resource type="Texture2D" uid="uid://dmfx5yd404uk2" path="res://sprites/pause_screen_2.png" id="13_nvnu1"]
+[ext_resource type="AudioStream" uid="uid://dne0s2rvifjks" path="res://sfx/speech_1.wav" id="13_sh64o"]
 [ext_resource type="AudioStream" uid="uid://1vw4xch6tpbt" path="res://sfx/menuselect.wav" id="14_6vrt7"]
+[ext_resource type="AudioStream" uid="uid://ck6gxc6t30yaf" path="res://sfx/text.wav" id="14_08q8v"]
 [ext_resource type="AudioStream" uid="uid://c1djnp7leuudj" path="res://sfx/menucursor.wav" id="14_38m5y"]
+[ext_resource type="AudioStream" uid="uid://bkoorppgtux7i" path="res://sfx/textclose.wav" id="15_jbcu8"]
+[ext_resource type="Texture2D" uid="uid://dwiln2g51o2ov" path="res://sprites/pause_screen_M.png" id="18_clgye"]
+[ext_resource type="Texture2D" uid="uid://cmr823sg2k4lc" path="res://sprites/pause_screen_M_2.png" id="19_spfha"]
+[ext_resource type="Texture2D" uid="uid://k1tachn1xqxu" path="res://sprites/pause_text_1.png" id="22_loht6"]
+[ext_resource type="Texture2D" uid="uid://ddou7llxqacwe" path="res://sprites/pause_text_2.png" id="23_dp80i"]
+[ext_resource type="Texture2D" uid="uid://makwmsvdqmyg" path="res://sprites/pause_text_3.png" id="24_iicnl"]
+[ext_resource type="AudioStream" uid="uid://bt2yh50xitv1j" path="res://sfx/pause_start.wav" id="25_8h3j3"]
+[ext_resource type="AudioStream" uid="uid://dentc33bptqtu" path="res://sfx/pause_close.wav" id="26_vjegc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jfpn1"]
 atlas = ExtResource("2_htcw4")
@@ -638,6 +649,30 @@ height = 86.0
 radius = 5.0
 height = 44.0
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_i77m1"]
+atlas = ExtResource("6_chgte")
+region = Rect2(1464, 0, 244, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6305x"]
+atlas = ExtResource("6_chgte")
+region = Rect2(1220, 0, 244, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gjtq7"]
+atlas = ExtResource("6_chgte")
+region = Rect2(976, 0, 244, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jrkye"]
+atlas = ExtResource("6_chgte")
+region = Rect2(732, 0, 244, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qqdqy"]
+atlas = ExtResource("6_chgte")
+region = Rect2(488, 0, 244, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n8r2j"]
+atlas = ExtResource("6_chgte")
+region = Rect2(244, 0, 244, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_jav8m"]
 atlas = ExtResource("6_chgte")
 region = Rect2(0, 0, 244, 64)
@@ -680,6 +715,29 @@ region = Rect2(1464, 0, 244, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_84ov1"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i77m1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6305x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gjtq7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrkye")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qqdqy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n8r2j")
+}],
+"loop": true,
+"name": &"close",
+"speed": 30.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_jav8m")
@@ -732,14 +790,37 @@ size = Vector2(62, 63)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4nyv7"]
 size = Vector2(76, 96)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ft8k0"]
+atlas = ExtResource("18_clgye")
+region = Rect2(0, 0, 244, 244)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l4s1m"]
+atlas = ExtResource("19_spfha")
+region = Rect2(0, 0, 244, 244)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_u8qaf"]
 animations = [{
 "frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ft8k0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l4s1m")
+}, {
 "duration": 1.0,
 "texture": ExtResource("12_dmnnn")
 }, {
 "duration": 1.0,
 "texture": ExtResource("13_nvnu1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_loht6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_dp80i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_iicnl")
 }],
 "loop": true,
 "name": &"default",
@@ -829,10 +910,27 @@ disabled = true
 [node name="textbox" type="AnimatedSprite2D" parent="."]
 visible = false
 texture_filter = 1
-position = Vector2(-13, -153.5)
-scale = Vector2(3, 2.42188)
+position = Vector2(-12, -152)
+scale = Vector2(3.04918, 2.5)
 sprite_frames = SubResource("SpriteFrames_84ov1")
-animation = &"start"
+animation = &"close"
+script = ExtResource("12_vqir6")
+
+[node name="textDisplay" type="RichTextLabel" parent="textbox"]
+texture_filter = 1
+offset_left = -116.0
+offset_top = -26.0
+offset_right = 116.0
+offset_bottom = 26.0
+
+[node name="speech_1" type="AudioStreamPlayer2D" parent="textbox"]
+stream = ExtResource("13_sh64o")
+
+[node name="text" type="AudioStreamPlayer2D" parent="textbox"]
+stream = ExtResource("14_08q8v")
+
+[node name="textclose" type="AudioStreamPlayer2D" parent="textbox"]
+stream = ExtResource("15_jbcu8")
 
 [node name="weapons" type="Area2D" parent="." groups=["weapon"]]
 position = Vector2(-2, 0.5)
@@ -863,7 +961,14 @@ stream = ExtResource("14_38m5y")
 
 [node name="pauseMenu" type="AnimatedSprite2D" parent="."]
 visible = false
+position = Vector2(-34, 0)
 sprite_frames = SubResource("SpriteFrames_u8qaf")
+
+[node name="pause_start" type="AudioStreamPlayer2D" parent="pauseMenu"]
+stream = ExtResource("25_8h3j3")
+
+[node name="pause_close" type="AudioStreamPlayer2D" parent="pauseMenu"]
+stream = ExtResource("26_vjegc")
 
 [connection signal="area_entered" from="weapons" to="." method="_on_weapons_area_entered"]
 [connection signal="area_entered" from="interaction" to="interaction" method="_on_area_entered"]

@@ -1,4 +1,5 @@
 extends Area2D
+@onready var player = $".."
 
 var interactable = false
 var displayText = ""
@@ -6,7 +7,7 @@ var interactableObject = null
 
 func setInteractable(text):
 	interactable = true
-	displayText = text
+	player.setInteractable(text)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,6 +26,7 @@ func _process(delta):
 					interactableObject = a
 					
 	elif interactable:
+		player.unsetInteractable()
 		if interactableObject != null:
 			interactableObject.unInteract()
 		interactable = false
