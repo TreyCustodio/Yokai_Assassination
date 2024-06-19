@@ -1,3 +1,112 @@
-Kitsune
+Yokai Assassination
 
-Main character lived with his family. Was kidnapped 
+Intro:
+Guard A: Have you heard? Yokai have been appearing around the palace recently.
+Guard B: Really? I had no idea...
+Guard A: Apparently, the shogun and the council are in disarray. It would be prime time
+for the Katsu clan to strike.
+Guard B: **Stops**
+Guard A: What's the matter? Getting tired?
+Guard B: No... it's just...
+		My brother went missing several days ago...
+		I've had to guard the front gate
+		on my own since then...
+Guard A: You mean Tezuka-kun?
+Guard B:
+		Now I'm thinking about those yokai and...
+		Wait...
+		Did you address him with kun?
+Guard A: Oh! How disrespectful! I meant Tezuka-senpai!
+Guard B: ...
+		My brother holds the highest role in the palace
+		save for the councilmen themselves...
+		He is the master of the front gate...
+		Everyone addresses him with sama!
+		**Approaches**
+		What was your name again?
+		And where did you come from?
+		I thought I was alone?
+Guard A: **stabs**
+Tezuka (yokai): **Walks in**
+**play ominous music**
+Guard A: Ah! "Tezuka-kun"! There you are!
+		You wouldn't believe the information
+		I've just received from this human!
+		Yee hee hee!
+Tezuka:	Pray tell, you sly spirit!
+		Yo ho ho!
+Guard A: It seems we are expected to guard
+		the front gate!
+Tezuka: Like taking candy from a baby!
+
+
+Council meeting
+Shogun exposed as yokai, MC gets thrown out of the gate,
+meets a wounded Kitsune. The two merge into one
+
+MC (monologue): Surely, life has drawn its blade
+				upon my mind several times over.
+				But that man was not the Shogun
+				I chose to devote my life to.
+				Whatever it takes, even at the
+				cost of my life, I must
+				convince my people of the truth!
+				**runs**
+Kitsune: Wait!
+MC: Who are you? Yokai?
+Kitsune: Brave samurai, to lie
+		would bring me dishoner.
+		I am a Yokai...
+		I am the guardian of these fields.
+		Your tales refer to me as the angel
+		of the harvest.
+
+MC: Kitsune! So the depictions are true!
+	We've lost faith in you since
+	the Yokai attacks!
+
+Kitsune:
+		Long have I protected your clan
+		from Yokai invasions...
+		But the one posing as your
+		Shogun wounded me in battle,
+		leaving me to die a shameful death.
+MC: Please, let me offer
+	something! Anything
+	to bring back your vitality!
+Kitsune:
+		If you offer me your body,
+		I can give you the wisdom and strength
+		to save your people.
+
+MC: What will become of us?
+Kitsune: You and I will remain bound
+		until time seizes our vessel.
+		Upon our death, my spirit
+		will return to the fields,
+		and like a phoenix rising from
+		the ashes, my role will continue.
+MC: I see...
+		To be immortal
+		would remove what makes
+		the human race special.
+Kitsune: ...
+		You and I will forsake ourselves
+		and become one.
+		Do you understand these consequences?
+MC: I do...
+	For the sake of my shogun,
+	I mustn't be selfish.
+	I accept your offer!
+	
+
+Read dialogue to decide if an enemy is a yokai or not.
+Password system
+Main character's name
+
+6/18
+Slash
+Backstep
+Jump
+Enemy (no attacks or animations)
+Textbox
