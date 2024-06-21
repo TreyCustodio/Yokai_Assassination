@@ -7,37 +7,45 @@ extends Node2D
 @onready var clouds_2_parallax = $background/clouds2_parallax
 @onready var enemies = $enemies
 @onready var enemydeath = $enemydeath
+@onready var fire_rect = $Projectiles/fireballs/fire_rect
+@onready var fire_rect_1 = $Projectiles/fireballs/fire_rect_1
+@onready var fire_rect_2 = $Projectiles/fireballs/fire_rect_2
+@onready var fireballs = $Projectiles/fireballs
 
+var fire_count_2 = 0 #Determiens how many fireballs are allowed on the screen
+var fire_timer = 0.0
+var recharge_time = 0.5
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
-##Parallax Scrolling
-#2 copies of the scrolling image
-#When the 2nd copy is equal to position 0,
-#which is also when the 1st copy finishes its first loop,
-#reset their positions
-func resetClouds():
-	clouds_2.position.x = 0
-	clouds.position.x = 0
-	clouds_parallax.position.x = 1460
-	clouds_2_parallax.position.x = 1460
+func ready_to_burn():
+	return fire_count_2 < 3
 	
-func moveClouds():
-	clouds_2.position.x -= 1
-	clouds.position.x -= 1
-	clouds_parallax.position.x -= 1
-	clouds_2_parallax.position.x -= 1
-	if clouds_2_parallax.position.x <= 0:
-		resetClouds()
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+func shoot_fire(dir=1, pos=Vector2(0,0)):
+	fire_count_2 += 1
+	var count = fireballs.getCount()
+	if count == 0:
+		fire_rect.initialize(dir, pos)
+	elif count == 1:
+		fire_rect_1.initialize(dir, pos)
+	elif count == 2:
+		fire_rect_2.initialize(dir,pos)
 
 func checkDead():
 	for n in enemies.get_children():
 		if n.dead:
 			enemies.remove_child(n)
 			enemydeath.play()
+
+func refreshFire(delta):
+	if fire_count_2 > 0:
+		if fire_timer >= recharge_time:
+			fire_timer = 0.0
+			fire_count_2 -= 1
+		else:
+			fire_timer += delta
+			
 func _process(delta):
+	refreshFire(delta)
 	checkDead()
-	moveClouds()

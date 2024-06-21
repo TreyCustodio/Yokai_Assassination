@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://cah3d68balwx8"]
+
+[ext_resource type="Texture2D" uid="uid://bli1eisfaksam" path="res://backgrounds/Clouds/Clouds 7/1.png" id="1_gkxtf"]
+[ext_resource type="Script" path="res://scenes/sunset.gd" id="1_vefl7"]
+[ext_resource type="Texture2D" uid="uid://oirkppwn5m1c" path="res://backgrounds/Clouds/Clouds 7/3.png" id="2_rql6j"]
+[ext_resource type="Texture2D" uid="uid://b3emu4ks1vmni" path="res://backgrounds/Clouds/Clouds 7/4.png" id="3_l2igl"]
+
+[node name="back_layer" type="Node2D"]
+script = ExtResource("1_vefl7")
+
+[node name="background" type="TextureRect" parent="."]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -391.0
+offset_top = 18.0
+offset_right = 1460.0
+offset_bottom = 718.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_gkxtf")
+
+[node name="cloud_images" type="Node2D" parent="."]
+position = Vector2(-782, 18)
+
+[node name="clouds2" type="TextureRect" parent="cloud_images"]
+texture_filter = 1
+offset_left = 391.0
+offset_top = 1.0
+offset_right = 2241.0
+offset_bottom = 700.0
+texture = ExtResource("2_rql6j")
+
+[node name="clouds2_parallax" type="TextureRect" parent="cloud_images"]
+texture_filter = 1
+offset_left = 2241.0
+offset_top = 1.0
+offset_right = 4091.0
+offset_bottom = 700.0
+texture = ExtResource("2_rql6j")
+
+[node name="clouds" type="TextureRect" parent="cloud_images"]
+texture_filter = 1
+offset_left = 391.0
+offset_top = 1.0
+offset_right = 2241.0
+offset_bottom = 700.0
+texture = ExtResource("3_l2igl")
+
+[node name="clouds_parallax" type="TextureRect" parent="cloud_images"]
+texture_filter = 1
+offset_left = 2241.0
+offset_top = 1.0
+offset_right = 4091.0
+offset_bottom = 700.0
+texture = ExtResource("3_l2igl")

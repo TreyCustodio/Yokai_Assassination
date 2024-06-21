@@ -34,6 +34,9 @@ func hit(damage):
 		sprite.modulate = Color(1,0,0,10)
 		healthbar.play(str(hp))
 
+func playAnimation(name):
+	sprite.play(name)
+	
 func interact():
 	interactable = true
 	interact_icon.visible = true

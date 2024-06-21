@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://yk0tb8kmc1qt"]
+
+[ext_resource type="Script" path="res://fire_damage.gd" id="1_iii56"]
+[ext_resource type="PackedScene" uid="uid://16q5t8sd61ep" path="res://scenes/fire_rect.tscn" id="2_bmy77"]
+
+[node name="fireballs" type="Area2D" groups=["weapon"]]
+script = ExtResource("1_iii56")
+
+[node name="fire_rect" parent="." instance=ExtResource("2_bmy77")]
+position = Vector2(850, 461)
+
+[node name="fire_rect_1" parent="." instance=ExtResource("2_bmy77")]
+position = Vector2(850, 461)
+
+[node name="fire_rect_2" parent="." instance=ExtResource("2_bmy77")]
+position = Vector2(850, 461)

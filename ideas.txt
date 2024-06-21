@@ -1,5 +1,67 @@
 Yokai Assassination
 
+TO DO:
+	Kitsune: Fire + bite
+	Enemies
+	Level Design
+	Pause Screen
+	Title Screen + Credits
+	
+Some people get a kick out of spamming buttons.
+Others prefer to play it calm and hold the button down.
+
+Only health pickups from defeating Yokai
+Prioritze dodging with backstep and fireballs
+Bite attack kills yokai in one hit
+
+Better Pause screen
+PAUSE
+------
+Settings -> attack mode / text speed / remap controls
+Toggle Fullscreen
+Quit -> Progress will be lost, are you sure you want to quit?
+
+Enemies:
+	- Run at you until you're in their slash box,
+	- slash three times, 
+	- pause,
+	- put their sword away,
+	- repeat
+
+10 characters + 1 Shogun
+
+2 Front gate: Both
+	- front gate
+	
+4 First room: one of them
+	- wow! he was a yokai!
+	- you fool!
+	
+6 Second room neither:
+	- was he really a yokai...?
+	
+7 Wandering around, a yokai
+
+8 [Recognizes Kitsune] Wandering around, not a yokai
+	
+2 shogun guards you need to sneak passed
+
+1 Final Shogun
+
+The end!
+5 Yokai,
+6 Humans
+Display 10 humans at first
+Increase Yokai count if they were a Yokai
+Decrease human count regardless
+	
+People attack you as a kitsune
+Read dialogue to decide if an enemy is a yokai or not.
+Password system
+Main character's name
+One guy recognizes the Kitsune, but Haruko says that his clan would see him as a Yokai. (Can only talk to this guy as a kitsune)
+
+
 Intro:
 Guard A: Have you heard? Yokai have been appearing around the palace recently.
 Guard B: Really? I had no idea...
@@ -93,20 +155,11 @@ MC: I see...
 Kitsune: ...
 		You and I will forsake ourselves
 		and become one.
-		Do you understand these consequences?
+		But do not fear.
+		Your personality will remain,
+		enlightened by my wisdom.
+		Do you understand?
 MC: I do...
 	For the sake of my shogun,
 	I mustn't be selfish.
 	I accept your offer!
-	
-
-Read dialogue to decide if an enemy is a yokai or not.
-Password system
-Main character's name
-
-6/18
-Slash
-Backstep
-Jump
-Enemy (no attacks or animations)
-Textbox

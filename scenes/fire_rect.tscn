@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://16q5t8sd61ep"]
+
+[ext_resource type="Script" path="res://scenes/fireballs.gd" id="1_r8myu"]
+[ext_resource type="Texture2D" uid="uid://c1nw4jm7h3oit" path="res://sprites/fireball.png" id="2_7p5qx"]
+[ext_resource type="AudioStream" uid="uid://dtm5um6ndl3uj" path="res://sfx/fire.wav" id="3_2g1hf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ti61n"]
+radius = 8.01561
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hm6v2"]
+atlas = ExtResource("2_7p5qx")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vke2t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hm6v2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="fire_rect" type="CollisionShape2D"]
+position = Vector2(62, 10.5)
+scale = Vector2(2, 2)
+shape = SubResource("CircleShape2D_ti61n")
+disabled = true
+debug_color = Color(0.81, 0.41796, 0.0972, 0.662745)
+script = ExtResource("1_r8myu")
+
+[node name="fireball_1" type="AnimatedSprite2D" parent="."]
+visible = false
+texture_filter = 1
+position = Vector2(-8, -8)
+sprite_frames = SubResource("SpriteFrames_vke2t")
+centered = false
+
+[node name="fire_sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_2g1hf")

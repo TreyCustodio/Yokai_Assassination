@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cq1wmtfno5at2"]
+
+[ext_resource type="AudioStream" uid="uid://cev4riu3qeany" path="res://sfx/emeydies.wav" id="1_kkuib"]
+
+[node name="enemydeath" type="AudioStreamPlayer"]
+stream = ExtResource("1_kkuib")
