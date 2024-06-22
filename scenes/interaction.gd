@@ -5,31 +5,49 @@ var interactable = false
 var displayText = ""
 var interactableObject = null
 
-func setInteractable(text):
+func hide_icon():
+	if interactableObject != null:
+		interactableObject.hide_icon()
+
+func show_icon():
+	if interactableObject != null:
+		interactableObject.show_icon()
+	
+func setInteractable(text, obj):
 	interactable = true
+	interactableObject = obj
 	player.setInteractable(text)
 
-# Called when the node enters the scene tree for the first time.
+func unInteract():
+	interactable = false
+	player.unsetInteractable()
+	
 func _ready():
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if has_overlapping_areas():
-		if not interactable:
-			var areas = get_overlapping_areas()
-			for a in areas:
-				if a.is_in_group("enemy"):
-					setInteractable(a.get_text())
-					a.interact()
-					interactableObject = a
-					
-	elif interactable:
-		player.unsetInteractable()
-		if interactableObject != null:
+	if interactableObject != null:
+		if interactableObject.get_fighting():
+			unInteract()
 			interactableObject.unInteract()
-		interactable = false
-		displayText = ""
-	
-
+			interactableObject = null
+		elif not interactable:
+			interactableObject.unInteract()
+			interactableObject = null
+		
+	if has_overlapping_areas():
+		var areas = get_overlapping_areas()
+		for a in areas:
+			if a.is_in_group("enemy"):
+				if not a.get_fighting():
+					setInteractable(a.get_text(), a)
+					a.interact()
+					return
+			#unInteract if there are areas but none are the npc or the npc is fighting
+			if interactable:
+				unInteract()
+	else:
+		#unInteract if there are no areas
+		if interactable:
+			unInteract()

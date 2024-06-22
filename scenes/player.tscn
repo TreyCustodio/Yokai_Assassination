@@ -1,4 +1,4 @@
-[gd_scene load_steps=227 format=3 uid="uid://o0yecji1qpwx"]
+[gd_scene load_steps=229 format=3 uid="uid://o0yecji1qpwx"]
 
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_q1gbx"]
 [ext_resource type="Texture2D" uid="uid://dicsb88julmd2" path="res://sprites/samurai_idle.png" id="2_htcw4"]
@@ -6,8 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://io4823c7un2m" path="res://sprites/samurai_running.png" id="3_nc4dr"]
 [ext_resource type="Texture2D" uid="uid://bgt8orum7w34c" path="res://sprites/samurai_slash.png" id="5_q1jin"]
 [ext_resource type="Texture2D" uid="uid://mj6cmric32ff" path="res://sprites/textbox.png" id="6_chgte"]
-[ext_resource type="PackedScene" uid="uid://cvljcssfhqgyh" path="res://camera.tscn" id="7_5qxqu"]
 [ext_resource type="AudioStream" uid="uid://cexwpxmjpbvut" path="res://sfx/slash.wav" id="7_6bn1m"]
+[ext_resource type="AudioStream" uid="uid://cu6h5tdqhurft" path="res://sfx/player_hurt.wav" id="7_bi8xm"]
 [ext_resource type="AudioStream" uid="uid://jsm4uk6bb3hl" path="res://sfx/jump.wav" id="8_8wfif"]
 [ext_resource type="AudioStream" uid="uid://8re2b86rti6i" path="res://sfx/backstep.wav" id="8_sytsq"]
 [ext_resource type="AudioStream" uid="uid://brtf08h523kdv" path="res://sfx/land.wav" id="9_wq0rg"]
@@ -25,6 +25,7 @@
 [ext_resource type="AudioStream" uid="uid://ck6gxc6t30yaf" path="res://sfx/text.wav" id="14_08q8v"]
 [ext_resource type="AudioStream" uid="uid://c1djnp7leuudj" path="res://sfx/menucursor.wav" id="14_38m5y"]
 [ext_resource type="Texture2D" uid="uid://dusorffnixgwa" path="res://sprites/shift.png" id="15_0ymud"]
+[ext_resource type="AudioStream" uid="uid://dmxrspyvqf6px" path="res://sfx/bite.wav" id="15_5k8he"]
 [ext_resource type="AudioStream" uid="uid://bkoorppgtux7i" path="res://sfx/textclose.wav" id="15_jbcu8"]
 [ext_resource type="AudioStream" uid="uid://10qb0xf840dq" path="res://sfx/speech_2.wav" id="16_qh8vp"]
 [ext_resource type="AudioStream" uid="uid://b78ndtu2tuakk" path="res://sfx/speech_3.wav" id="17_4bf5e"]
@@ -1028,22 +1029,22 @@ region = Rect2(0, 0, 96, 96)
 [sub_resource type="SpriteFrames" id="SpriteFrames_sciye"]
 animations = [{
 "frames": [{
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_qjyt1")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_wu73m")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_l8fxq")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_td856")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_glfgi")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_yofmg")
 }, {
 "duration": 1.0,
@@ -1400,13 +1401,16 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ep1i8"]
-size = Vector2(62, 63)
+size = Vector2(58, 63)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rmuuq"]
 radius = 17.0074
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jp72v"]
+size = Vector2(32, 32)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4nyv7"]
-size = Vector2(76, 96)
+size = Vector2(104, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ft8k0"]
 atlas = ExtResource("18_clgye")
@@ -1445,21 +1449,23 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="player" type="CharacterBody2D"]
+[node name="player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_q1gbx")
 
 [node name="samurai" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(-36, 0)
+position = Vector2(-35, 0)
 sprite_frames = SubResource("SpriteFrames_cflpd")
-animation = &"jump_loop"
+animation = &"slashing"
 autoplay = "idle"
-frame_progress = 0.209783
-
-[node name="Camera2D" parent="." instance=ExtResource("7_5qxqu")]
+frame = 6
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.28
+
+[node name="hurtfx" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(-35, 0)
+stream = ExtResource("7_bi8xm")
 
 [node name="slashfx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_6bn1m")
@@ -1479,9 +1485,15 @@ visible = false
 texture_filter = 1
 position = Vector2(-37, 1)
 sprite_frames = SubResource("SpriteFrames_sciye")
-animation = &"fire"
+animation = &"biting"
+frame = 1
+frame_progress = 0.0594989
 
-[node name="samurai_rect" type="CollisionShape2D" parent="."]
+[node name="bitefx" type="AudioStreamPlayer2D" parent="kitsune"]
+stream = ExtResource("15_5k8he")
+
+[node name="samurai_rect" type="CollisionShape2D" parent="." groups=["player"]]
+visible = false
 modulate = Color(1, 0.0745098, 1, 1)
 z_as_relative = false
 texture_filter = 1
@@ -1489,7 +1501,8 @@ material = SubResource("CanvasItemMaterial_avatm")
 position = Vector2(-19, 5)
 shape = SubResource("CapsuleShape2D_m8a2l")
 
-[node name="kitsune_rect" type="CollisionShape2D" parent="."]
+[node name="kitsune_rect" type="CollisionShape2D" parent="." groups=["player"]]
+visible = false
 position = Vector2(-31, 22)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_teedc")
@@ -1535,17 +1548,25 @@ position = Vector2(-2, 0.5)
 script = ExtResource("12_ga07i")
 
 [node name="sword_rect" type="CollisionShape2D" parent="weapons"]
-position = Vector2(35, 0)
+position = Vector2(33, 0)
 shape = SubResource("RectangleShape2D_ep1i8")
 disabled = true
 debug_color = Color(0.705882, 0, 0, 0.556863)
 
 [node name="fire_spawner" type="CollisionShape2D" parent="weapons"]
+visible = false
 modulate = Color(1, 0.203922, 1, 1)
 position = Vector2(25, 10)
 shape = SubResource("CircleShape2D_rmuuq")
 disabled = true
 debug_color = Color(0.701961, 0.392157, 0, 0.623529)
+
+[node name="bite_rect" type="CollisionShape2D" parent="weapons"]
+visible = false
+position = Vector2(25, 15.5)
+shape = SubResource("RectangleShape2D_jp72v")
+disabled = true
+debug_color = Color(1, 0, 0, 0.701961)
 
 [node name="interaction" type="Area2D" parent="." groups=["interaction"]]
 visible = false
@@ -1556,7 +1577,7 @@ modulate = Color(1, 0.0745098, 1, 1)
 z_as_relative = false
 texture_filter = 1
 material = SubResource("CanvasItemMaterial_avatm")
-position = Vector2(-2, 0)
+position = Vector2(-16, 0)
 shape = SubResource("RectangleShape2D_4nyv7")
 
 [node name="menuSelect" type="AudioStreamPlayer" parent="."]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=3 uid="uid://cgbw0ebla4o83"]
+[gd_scene load_steps=79 format=3 uid="uid://cgbw0ebla4o83"]
 
 [ext_resource type="Script" path="res://scenes/npc.gd" id="1_5d6s0"]
 [ext_resource type="Texture2D" uid="uid://dicsb88julmd2" path="res://sprites/samurai_idle.png" id="1_jy0yx"]
@@ -345,15 +345,18 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_rbb26")
 }, {
-"duration": 1.0,
+"duration": 3.0,
 "texture": SubResource("AtlasTexture_4kwyp")
 }, {
-"duration": 1.0,
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_qtv5g")
+}, {
+"duration": 6.0,
 "texture": SubResource("AtlasTexture_qtv5g")
 }],
 "loop": true,
 "name": &"slashing",
-"speed": 30.0
+"speed": 20.0
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kura8"]
@@ -509,6 +512,12 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q20s7"]
+size = Vector2(40, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fmeab"]
+size = Vector2(40, 60)
+
 [node name="npc" type="CharacterBody2D" groups=["enemy"]]
 position = Vector2(39, 0)
 script = ExtResource("1_5d6s0")
@@ -518,6 +527,7 @@ texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_wed8x")
 animation = &"slashing"
 autoplay = "default"
+frame = 6
 flip_h = true
 
 [node name="healthbar" type="AnimatedSprite2D" parent="."]
@@ -549,6 +559,20 @@ scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_pt17l")
 frame = 1
 frame_progress = 0.0826311
+
+[node name="attackzone" type="Area2D" parent="."]
+position = Vector2(-54, 0)
+
+[node name="slash_detect" type="CollisionShape2D" parent="attackzone"]
+position = Vector2(-10, 1)
+shape = SubResource("RectangleShape2D_q20s7")
+debug_color = Color(0.886275, 0.772549, 0, 0.768627)
+
+[node name="slash_rect" type="CollisionShape2D" parent="attackzone"]
+position = Vector2(-10, 1)
+shape = SubResource("RectangleShape2D_fmeab")
+disabled = true
+debug_color = Color(0.976471, 0, 0, 0.419608)
 
 [connection signal="area_entered" from="hitzone" to="." method="_on_hitzone_area_entered"]
 [connection signal="timeout" from="iframe_timer" to="." method="_on_iframe_timer_timeout"]

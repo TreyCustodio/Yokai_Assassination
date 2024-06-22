@@ -1,18 +1,32 @@
 extends Area2D
 
 @onready var speech = $"../speech"
+@onready var interact_icon = $"../interactIcon"
+@onready var npc = $".."
 
 var interactable = false
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	pass # Replace with function body.
 
 func interact():
 	interactable = true
+	show_icon()
 
+func get_fighting():
+	return npc.fighting
+	
 func unInteract():
 	interactable = false
+	hide_icon()
 
+func hide_icon():
+	interact_icon.visible = false
+
+func show_icon():
+	interact_icon.play("default")
+	interact_icon.visible = true
+	
 func get_text():
 	return speech.get_text()
 	

@@ -13,9 +13,8 @@ position = Vector2(1179, 468)
 [node name="npc" parent="enemies" index="1"]
 position = Vector2(1330, 468)
 
-[node name="player" parent="." index="6"]
-position = Vector2(729, 390)
+[node name="player" parent="." index="5"]
+position = Vector2(721, 373)
 
-[node name="bgm" parent="." index="7"]
+[node name="bgm" parent="." index="6"]
 stream = ExtResource("7_42qxr")
-autoplay = true

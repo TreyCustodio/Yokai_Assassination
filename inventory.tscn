@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://bbc77ebcuxo60"]
+
+[node name="Inventory" type="Node2D"]

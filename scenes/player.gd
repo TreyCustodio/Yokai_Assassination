@@ -34,33 +34,42 @@ extends CharacterBody2D
 @onready var pause_close = $pauseMenu/pause_close
 @onready var to_kitsune_fx = $change_sound
 @onready var to_samurai_fx = $change_sound_1
+@onready var bitefx = $kitsune/bitefx
+@onready var hurtfx = $hurtfx
 
 #Areas
 @onready var weapons = $weapons
 @onready var interact_rect = $interaction/interact_rect
 @onready var interaction = $interaction
-
+@onready var bite_rect = $weapons/bite_rect
+const MAIN = preload("res://main.tscn")
 
 ##Physics values
 const SPEED = 300.0
 const JUMP_VELOCITY = -900.0
 var pause = false
-var attackMode = "spam" #spam, hold
-var textMode = "medium" #slow, medium, fast
+var attackMode = Constants.attackMode #spam, hold
+var textMode = Constants.textMode
+
 var direction = 1
 var gravity = 3000
 var highlight = Vector2(0,0)
+var invincible = false
+var iframe_timer = 0.0
 
 ##States
 #Form
-var form = "samurai"
+var form = Constants.form
+var fullscreen = false
 #Pause states
 var inMain = true
 var selectingMode = false
 var selectingText = false
 #Player states
+var master_lock = true
 var key_lock = false
 var speaking = false
+var biting = false
 var backstepping = false
 var walking = false
 var low = false
@@ -77,35 +86,86 @@ var shifting = false
 var shooting = false
 ##Stats
 var maxHp = 5
-var hp = maxHp
+var hp = Constants.get_hp()
+var yokai_count = Constants.get_yokai()
+var human_count = Constants.get_humans()
 
+func _ready():
+	if form == "samurai":
+		return
+	elif form == "kitsune":
+		samurai.visible = false
+		samurai_rect.disabled = true
+		interact_rect.disabled = true
+		kitsune.visible = true
+		kitsune_rect.disabled = false
+		kitsune.play("idle")
+	
+func masterLock():
+	master_lock = true
+	resetStates()
+	
+func masterUnlock():
+	master_lock = false
+	key_lock = false
+	
 func resetStates():
 	walking = false
 	jumping = false
-	#slash = fireball
-	#backstep = bite
 	slashing = false
 	airslashing = false
 	speaking = false
 	backstepping = false
+	invincible = false
+	iframe_timer = 0.0
+
+func playAnimation(animation):
+	if form == "kitsune":
+		kitsune.play(animation)
+	elif form == "samurai":
+		samurai.play(animation)
+		
+		
+func hit():
+	if not invincible:
+		invincible = true
+		hurtfx.play()
+		Constants.hp -= 1
+		hp -=1
+		if form == "samurai":
+			samurai.modulate = Color(1,0,0,10)
+		elif form == "kitsune":
+			kitsune.modulate = Color(1,0,0,10)
 	
 func changeForm():
-	
 	resetStates()
 	keyLock()
 	stop()
 	shifting = true
 	if form == "samurai":
 		to_kitsune_fx.play()
+		Constants.form = "kitsune"
 		form = "kitsune"
 		interact_rect.disabled = true
 		#kitsune.flip_h = samurai.flip_h
 		samurai.play("shifting")
 	elif form == "kitsune":
 		to_samurai_fx.play()
+		Constants.form = "samurai"
 		form = "samurai"
 		kitsune.play("shifting")
-		
+
+func bite():
+	weapons.setDamage(2)
+	if direction == 1:
+		kitsune.offset.x += 32
+	elif direction == -1:
+		kitsune.offset.x -= 32
+	stop()
+	keyLock()
+	biting = true
+	kitsune.play("biting")
+	
 func keyLock():
 	key_lock = true
 
@@ -139,6 +199,7 @@ func airSlash():
 	keyLock()
 	
 func slash():
+	#Direction isnt correct
 	slashing = true
 	keyLock()
 	samurai.animation = "slashing"
@@ -176,14 +237,16 @@ func stopSlash():
 func setFullscreen():
 	#Fullscreen -> Window
 	if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
-		camera_2d.position.x += 250
-		camera_2d.position.y += 150
+		#camera_2d.position.x += 250
+		#camera_2d.position.y += 150
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		fullscreen = false
 	#Window -> Fullscreen
 	else:
-		camera_2d.position.x -= 250
-		camera_2d.position.y -= 150
+		#camera_2d.position.x -= 250
+		#camera_2d.position.y -= 150
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		fullscreen = true
 		
 func setHp():
 	var number = str(hp)
@@ -254,6 +317,9 @@ func unsetInteractable():
 	interactable = false
 
 func startSpeech(sound = 0):
+	interact_rect.disabled = true
+	interaction.hide_icon()
+	healthbar.visible = false
 	text.play()
 	textbox.textSound = sound
 	textbox.setText(displayText)
@@ -268,6 +334,9 @@ func startSpeech(sound = 0):
 	keyLock()
 
 func stopSpeech():
+	interact_rect.disabled = false
+	interaction.show_icon()
+	healthbar.visible = true
 	speaking = false
 	keyUnlock()
 
@@ -347,6 +416,7 @@ func pauseRoutine():
 		if highlight.y == 0:
 			if Input.is_action_just_pressed("down"):
 				menuSelect.play()
+				Constants.attackMode = "hold"
 				attackMode = "hold"
 				pauseMenu.frame = 3
 				highlight.y = 1
@@ -354,6 +424,7 @@ func pauseRoutine():
 		elif highlight.y == 1:
 			if Input.is_action_just_pressed("up"):
 				menuSelect.play()
+				Constants.attackMode = "spam"
 				attackMode = "spam"
 				highlight.y = 0
 				pauseMenu.frame = 2
@@ -371,6 +442,7 @@ func pauseRoutine():
 		if highlight.y == 0:
 			if Input.is_action_just_pressed("down"):
 				menuSelect.play()
+				Constants.textMode = "medium"
 				textMode = "medium"
 				textbox.setCharTime(0.01)
 				pauseMenu.frame = 5
@@ -380,6 +452,7 @@ func pauseRoutine():
 		elif highlight.y == 1:
 			if Input.is_action_just_pressed("up"):
 				menuSelect.play()
+				Constants.textMode = "slow"
 				textMode = "slow"
 				textbox.setCharTime(0.05)
 				highlight.y = 0
@@ -387,6 +460,7 @@ func pauseRoutine():
 			elif Input.is_action_just_pressed("down"):
 				textbox.setCharTime(0)
 				menuSelect.play()
+				Constants.textMode = "fast"
 				textMode = "fast"
 				highlight.y = 2
 				pauseMenu.frame = 6
@@ -396,6 +470,7 @@ func pauseRoutine():
 			if Input.is_action_just_pressed("up"):
 				menuSelect.play()
 				textbox.setCharTime(0.01)
+				Constants.textMode = "medium"
 				textMode = "medium"
 				highlight.y = 1
 				pauseMenu.frame = 5
@@ -449,16 +524,17 @@ func handleEvents(frame):
 		
 		if not key_lock:
 			#Hurt/Heal for debug
-			if Input.is_action_just_pressed("hurt"):
-				hp -= 1
-			if Input.is_action_just_pressed("heal"):
-				hp += 1
+			#if Input.is_action_just_pressed("hurt"):
+				#hp -= 1
+			#if Input.is_action_just_pressed("heal"):
+				#hp += 1
 			
 			if not jumping and not airslashing and not backstepping:
 				#Change form
 				if Input.is_action_just_pressed("shift"):
-					changeForm()
-					return
+					if not invincible:
+						changeForm()
+						return
 				#Slash
 				elif Input.is_action_just_pressed("slash"):
 					slash()
@@ -503,6 +579,8 @@ func handleEvents(frame):
 		if slashing:
 			#No moving or new actions during fire
 			return
+		elif biting:
+			return
 		#No new actions while jumping, but keep moving
 		if not jumping:
 			#Shift
@@ -512,6 +590,9 @@ func handleEvents(frame):
 			#Jump
 			elif Input.is_action_just_pressed("jump"):
 				startJump()
+			elif Input.is_action_just_pressed("backstep"):
+				bite()
+				return
 			#Fire
 			elif Input.is_action_just_pressed("slash"):
 				if get_parent().ready_to_burn():
@@ -529,20 +610,33 @@ func handleEvents(frame):
 		else:
 			velocity.x = move_toward(velocity.x, 0, 100)
 
+
 ###Handle events and update states
 func _physics_process(delta):
 	##Pause Routine
 	if pause:
 		pauseRoutine()
 		return
-	
+	##I-frames
+	if invincible:
+		if iframe_timer >= 1.0:
+			iframe_timer = 0.0
+			invincible = false
+			if form == "samurai":
+				samurai.modulate = Color(1,1,1,1)
+			elif form == "kitsune":
+				kitsune.modulate = Color(1,1,1,1)
+		else:
+			iframe_timer += delta
 	##Event and physics handling
 	#Set frame
 	var frame = samurai.get_frame()
 	#Set gravity
 	if not frozen and not is_on_floor():
 		velocity.y += gravity * delta
-	handleEvents(frame)
+	
+	if not master_lock:
+		handleEvents(frame)
 			
 			
 	###Updating states
@@ -598,7 +692,18 @@ func _physics_process(delta):
 	##Movement - both forms
 	if not key_lock:
 		move_and_slide()
+	update_camera()
 
+func update_camera():
+	if fullscreen:
+		camera_2d.position.x = position.x - 660
+		camera_2d.position.y = position.y - (400)
+	else:
+		#camera_2d.position.x -= 250
+		#camera_2d.position.y -= 150
+		camera_2d.position.x = position.x - 400
+		camera_2d.position.y = position.y - 250
+		
 
 
 func update_samurai():
@@ -612,6 +717,7 @@ func update_samurai():
 		
 	if not backstepping:
 		update_samurai_direction()
+		update_kitsune_direction()
 		
 	#set animation loop
 	#Jumping
@@ -688,9 +794,37 @@ func update_kitsune():
 			return
 		else:
 			return
-		
+	elif biting:
+
+		if kitsune.frame == 14:
+			if kitsune.animation_finished:
+				if direction == 1:
+					bite_rect.position.x = weapons.position.x + 27
+				elif direction == -1:
+					bite_rect.position.x = weapons.position.x - 95
+				weapons.setDamage(1)
+				biting = false
+				if direction == 1:
+					kitsune.offset.x -= 32
+				elif direction == -1:
+					kitsune.offset.x += 32
+				kitsune.play("idle")
+				keyUnlock()
+		elif kitsune.frame >= 8:
+			if not bite_rect.disabled:
+				bite_rect.disabled = true
+		elif kitsune.frame >= 6:
+			if direction == 1:
+				bite_rect.position.x += 4
+			elif direction == -1:
+				bite_rect.position.x -= 4
+			if bite_rect.disabled:
+				bitefx.play()
+				bite_rect.disabled = false
+		return
 	#Update direction
 	update_kitsune_direction()
+	update_samurai_direction()
 	
 	
 	#Update jump, keep moving
@@ -720,9 +854,11 @@ func update_kitsune_direction():
 	if isLeft and not kitsune.flip_h:
 		kitsune.flip_h = true
 		fire_spawner.position.x -= 120
+		bite_rect.position.x -= 120
 	elif isRight and kitsune.flip_h:
 		kitsune.flip_h = false
 		fire_spawner.position.x += 120
+		bite_rect.position.x += 120
 
 func update_samurai_direction():
 	var isLeft = velocity.x < 0
@@ -731,11 +867,11 @@ func update_samurai_direction():
 	#Hitbox position adjusted by 32
 	if not samurai.flip_h and isLeft:
 		samurai.flip_h = true
-		interact_rect.position.x = samurai.position.x - 32
+		interact_rect.position.x = samurai.position.x - 16
 		samurai_rect.position.x = samurai.position.x - 16
-		sword_rect.position.x = samurai.position.x - 66
+		sword_rect.position.x = samurai.position.x - 64
 	elif samurai.flip_h and isRight:
 		samurai.flip_h = false
-		interact_rect.position.x = samurai.position.x + 32
+		interact_rect.position.x = samurai.position.x + 12
 		samurai_rect.position.x = samurai.position.x + 16
-		sword_rect.position.x = samurai.position.x + 70
+		sword_rect.position.x = samurai.position.x + 68
