@@ -9,6 +9,7 @@ extends CharacterBody2D
 @onready var camera_2d = $Camera2D
 @onready var healthbar = $Camera2D/healthbar
 @onready var health_number = $Camera2D/healthbar/healthNumber
+@onready var pause_menu = $"../pauseMenu"
 
 #Textbox
 @onready var textbox = $textbox
@@ -27,15 +28,11 @@ extends CharacterBody2D
 @onready var backstepfx = $backstepfx
 @onready var jumpfx = $jumpfx
 @onready var landfx = $landfx
-@onready var pauseMenu = $pauseMenu
-@onready var menuCursor = $menuCursor
-@onready var menuSelect = $menuSelect
-@onready var pause_start = $pauseMenu/pause_start
-@onready var pause_close = $pauseMenu/pause_close
 @onready var to_kitsune_fx = $change_sound
 @onready var to_samurai_fx = $change_sound_1
 @onready var bitefx = $kitsune/bitefx
 @onready var hurtfx = $hurtfx
+@onready var deathfx = $deathfx
 
 #Areas
 @onready var weapons = $weapons
@@ -45,26 +42,24 @@ extends CharacterBody2D
 const MAIN = preload("res://main.tscn")
 
 ##Physics values
+var dead = false
 const SPEED = 300.0
 const JUMP_VELOCITY = -900.0
 var pause = false
 var attackMode = Constants.attackMode #spam, hold
 var textMode = Constants.textMode
 
-var direction = 1
+var direction = Constants.direction
 var gravity = 3000
-var highlight = Vector2(0,0)
 var invincible = false
 var iframe_timer = 0.0
 
 ##States
 #Form
 var form = Constants.form
-var fullscreen = false
+var fullscreen = Constants.fullscreen
 #Pause states
-var inMain = true
-var selectingMode = false
-var selectingText = false
+
 #Player states
 var master_lock = true
 var key_lock = false
@@ -84,6 +79,7 @@ var interactable = false
 var frozen = false
 var shifting = false
 var shooting = false
+var playing_death = false
 ##Stats
 var maxHp = 5
 var hp = Constants.get_hp()
@@ -91,15 +87,26 @@ var yokai_count = Constants.get_yokai()
 var human_count = Constants.get_humans()
 
 func _ready():
+	position = Constants.position
 	if form == "samurai":
+		if direction == -1:
+			initialize_samurai_direction()
+			initialize_kitsune_direction()
 		return
 	elif form == "kitsune":
+		if direction == -1:
+			initialize_kitsune_direction()
+			initialize_samurai_direction()
 		samurai.visible = false
 		samurai_rect.disabled = true
 		interact_rect.disabled = true
 		kitsune.visible = true
 		kitsune_rect.disabled = false
 		kitsune.play("idle")
+	
+func play_death():
+	playing_death = true
+	deathfx.play()
 	
 func masterLock():
 	master_lock = true
@@ -125,13 +132,26 @@ func playAnimation(animation):
 	elif form == "samurai":
 		samurai.play(animation)
 		
-		
+
+func disable_rects():
+	sword_rect.disabled = true
+	bite_rect.disabled = true
+	
 func hit():
 	if not invincible:
 		invincible = true
 		hurtfx.play()
 		Constants.hp -= 1
 		hp -=1
+		if hp <= 0:
+			freeze()
+			resetStates()
+			disable_rects()
+			masterLock()
+			dead = true
+			samurai.pause()
+			kitsune.pause()
+			return
 		if form == "samurai":
 			samurai.modulate = Color(1,0,0,10)
 		elif form == "kitsune":
@@ -176,15 +196,15 @@ func freeze():
 	stop()
 	frozen = true
 	
-func unpause():
-	pause_close.play()
-	inMain = true
-	selectingMode = false
-	selectingText = false
-	pauseMenu.frame = 0
-	highlight.y = 0
+func unPause():
+	if form == "samurai":
+		samurai.play()
+	elif form == "kitsune":
+		kitsune.play()
+	attackMode = Constants.attackMode
+	textMode = Constants.textMode
+	textbox.set_speed()
 	pause = false
-	pauseMenu.visible = false
 	keyUnlock()
 
 func airSlash():
@@ -240,13 +260,16 @@ func setFullscreen():
 		#camera_2d.position.x += 250
 		#camera_2d.position.y += 150
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		Constants.fullscreen = false
 		fullscreen = false
 	#Window -> Fullscreen
 	else:
 		#camera_2d.position.x -= 250
 		#camera_2d.position.y -= 150
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		Constants.fullscreen = true
 		fullscreen = true
+	update_camera()
 		
 func setHp():
 	var number = str(hp)
@@ -349,131 +372,19 @@ func shootFire():
 	stop()
 	
 func pauseGame():
-	pause_start.play()
+	pause_menu.position = Vector2(position.x-20, position.y - 40)
+	pause_menu.pauseGame()
 	#reset states
 	slashing = false
-	samurai.play("idle")
+	stop()
+	if form == "samurai":
+		samurai.pause()
+	elif form == "kitsune":
+		kitsune.pause()
 	keyLock()
-	pauseMenu.visible = true
 	pause = true
 
-###Pause Routine
-func pauseRoutine():
-	#Unpause
-	if Input.is_action_just_pressed("pause"):
-		unpause()
-		return
-	#Attack Mode / Text Speed
-	if inMain:
-		if Input.is_action_just_pressed("jump"):
-			menuSelect.play()
-			#Go to Attack settings
-			if highlight.y == 0:
-				if attackMode == "spam":
-					pauseMenu.frame = 2
-					highlight.y = 0
-				elif attackMode == "hold":
-					pauseMenu.frame = 3
-					highlight.y = 1
-				selectingMode = true
-				inMain = false
-			#Go to Text settings
-			elif highlight.y == 1:
-				inMain = false
-				selectingText = true
-				if textMode == "medium":
-					highlight.y = 1
-					pauseMenu.frame = 5
-				elif textMode == "fast":
-					highlight.y = 2
-					pauseMenu.frame = 6
-				elif textMode == "slow":
-					highlight.y = 0
-					pauseMenu.frame = 4
-			return
-		#Move cursor
-		if highlight.y == 0:
-			if Input.is_action_just_pressed("down"):
-				menuCursor.play()
-				pauseMenu.frame = 1
-				highlight.y = 1
-		
-		elif highlight.y == 1:
-			if Input.is_action_just_pressed("up"):
-				menuCursor.play()
-				highlight.y = 0
-				pauseMenu.frame = 0
-	#Spam / Hold
-	elif selectingMode:
-		if Input.is_action_just_pressed("slash"):
-			menuCursor.play()
-			selectingMode = false
-			inMain = true
-			pauseMenu.frame = 0
-			highlight.y = 0
-			return
-			
-		if highlight.y == 0:
-			if Input.is_action_just_pressed("down"):
-				menuSelect.play()
-				Constants.attackMode = "hold"
-				attackMode = "hold"
-				pauseMenu.frame = 3
-				highlight.y = 1
-		
-		elif highlight.y == 1:
-			if Input.is_action_just_pressed("up"):
-				menuSelect.play()
-				Constants.attackMode = "spam"
-				attackMode = "spam"
-				highlight.y = 0
-				pauseMenu.frame = 2
-				
-	elif selectingText:
-		if Input.is_action_just_pressed("slash"):
-			menuCursor.play()
-			selectingText = false
-			inMain = true
-			pauseMenu.frame = 0
-			highlight.y = 0
-			return
-		
-		#On slow
-		if highlight.y == 0:
-			if Input.is_action_just_pressed("down"):
-				menuSelect.play()
-				Constants.textMode = "medium"
-				textMode = "medium"
-				textbox.setCharTime(0.01)
-				pauseMenu.frame = 5
-				highlight.y = 1
-		
-		#On medium
-		elif highlight.y == 1:
-			if Input.is_action_just_pressed("up"):
-				menuSelect.play()
-				Constants.textMode = "slow"
-				textMode = "slow"
-				textbox.setCharTime(0.05)
-				highlight.y = 0
-				pauseMenu.frame = 4
-			elif Input.is_action_just_pressed("down"):
-				textbox.setCharTime(0)
-				menuSelect.play()
-				Constants.textMode = "fast"
-				textMode = "fast"
-				highlight.y = 2
-				pauseMenu.frame = 6
-		
-		#On fast
-		elif highlight.y == 2:
-			if Input.is_action_just_pressed("up"):
-				menuSelect.play()
-				textbox.setCharTime(0.01)
-				Constants.textMode = "medium"
-				textMode = "medium"
-				highlight.y = 1
-				pauseMenu.frame = 5
+
 		
 func handleEvents(frame):
 	##Preliminary Events
@@ -481,9 +392,7 @@ func handleEvents(frame):
 	if shifting:
 		#If released, stop shifting
 		return
-	#Toggle fullscreen -> move to pause screen
-	elif Input.is_action_just_pressed("FULLSCREEN"):
-		setFullscreen()
+	
 	
 	##Samurai Events
 	if form == "samurai":
@@ -575,11 +484,14 @@ func handleEvents(frame):
 					
 	##Kitsune Events
 	elif form == "kitsune":
+		if pause:
+			return
 		#Fire control
-		if slashing:
+		elif slashing:
 			#No moving or new actions during fire
 			return
 		elif biting:
+			#No moving or new actions during bite
 			return
 		#No new actions while jumping, but keep moving
 		if not jumping:
@@ -598,6 +510,10 @@ func handleEvents(frame):
 				if get_parent().ready_to_burn():
 					shootFire()
 					return
+			#Pause
+			elif Input.is_action_just_pressed("pause"):
+				pauseGame()
+				return
 		var tempDir = Input.get_axis("left", "right")
 		if tempDir == 0:
 			walking = false
@@ -615,7 +531,11 @@ func handleEvents(frame):
 func _physics_process(delta):
 	##Pause Routine
 	if pause:
-		pauseRoutine()
+		if Input.is_action_just_pressed("pause"):
+			pause_menu.unPause()
+			unPause()
+		
+		#pauseRoutine()
 		return
 	##I-frames
 	if invincible:
@@ -875,3 +795,25 @@ func update_samurai_direction():
 		interact_rect.position.x = samurai.position.x + 12
 		samurai_rect.position.x = samurai.position.x + 16
 		sword_rect.position.x = samurai.position.x + 68
+
+func initialize_samurai_direction():
+	if not samurai.flip_h and direction == -1:
+		samurai.flip_h = true
+		interact_rect.position.x = samurai.position.x - 16
+		samurai_rect.position.x = samurai.position.x - 16
+		sword_rect.position.x = samurai.position.x - 64
+	elif samurai.flip_h:
+		samurai.flip_h = false
+		interact_rect.position.x = samurai.position.x + 12
+		samurai_rect.position.x = samurai.position.x + 16
+		sword_rect.position.x = samurai.position.x + 68
+		
+func initialize_kitsune_direction():
+	if direction == -1 and not kitsune.flip_h:
+		kitsune.flip_h = true
+		fire_spawner.position.x -= 120
+		bite_rect.position.x -= 120
+	elif kitsune.flip_h:
+		kitsune.flip_h = false
+		fire_spawner.position.x += 120
+		bite_rect.position.x += 120

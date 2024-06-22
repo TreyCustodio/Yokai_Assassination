@@ -9,8 +9,19 @@ extends Node2D
 @onready var enemydeath = $enemydeath
 @onready var npc = $enemies/npc
 @onready var npc_2 = $enemies/npc2
+@onready var startfx = $startfx
+@onready var fade = $fade
+@onready var fade_animation = $fade/AnimationPlayer
+@onready var bgm = $bgm
+
 var timer = 0.0
-var tick = 0
+var tick = -2
+var highlight = Vector2(0,0)
+var fading_in = true
+var transitioning = false
+var fade_timer = 0.0
+
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,6 +36,25 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 
 
+func trans(scene, pos = Vector2(0,0)):
+	Constants.position = pos
+	Constants.direction = player.direction
+	var str = "res://" + scene
+	get_tree().change_scene_to_file(scene)
+	
+func transition_routine():
+	trans("forest.tscn", Vector2(820, 531))
+
+func titleRoutine():
+	if Input.is_action_just_pressed("jump"):
+		startfx.play()
+		if not Constants.play_intro:
+			transitioning = true
+			fade_animation.play("fade_out")
+		else:
+			tick += 1
+			Constants.play_intro = false
+	
 func _process(delta):
 	if not player.key_lock:
 		player.keyLock()
@@ -32,8 +62,37 @@ func _process(delta):
 		player.interaction.monitoring = false
 		player.samurai.visible = false
 		player.camera_2d.visible = false
-		
-	if tick == 0:
+	
+	if fading_in:
+		player.masterLock()
+		if not fade_animation.is_playing():
+			fade_animation.play("fade_in")
+		if fade_timer >= 0.5:
+			player.masterUnlock()
+			fade_timer = 0.0
+			fading_in = false
+		else:
+			fade_timer += delta
+	
+	elif transitioning:
+		bgm.volume_db -= 0.5
+		if fade_timer >= 2.0:
+			if bgm.volume_db <= 0:
+				fade_timer = 0.0
+				transition_routine()
+		else:
+			fade_timer += delta
+		return
+			
+	if tick == -2:
+		titleRoutine()
+	elif tick == -1:
+		if timer >= 1.0:
+			timer = 0.0
+			tick += 1
+		else:
+			timer += delta
+	elif tick == 0:
 		npc.playAnimation("running")
 		npc_2.playAnimation("running")
 		tick += 1

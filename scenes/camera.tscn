@@ -1,6 +1,80 @@
-[gd_scene load_steps=7 format=3 uid="uid://cvljcssfhqgyh"]
+[gd_scene load_steps=16 format=3 uid="uid://cvljcssfhqgyh"]
 
 [ext_resource type="Texture2D" uid="uid://cu2bppawe7xnu" path="res://sprites/bar.png" id="1_ehdrq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p44vh"]
+atlas = ExtResource("1_ehdrq")
+region = Rect2(144, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yoj0x"]
+atlas = ExtResource("1_ehdrq")
+region = Rect2(160, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vycli"]
+atlas = ExtResource("1_ehdrq")
+region = Rect2(176, 128, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m38hl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p44vh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yoj0x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vycli")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yoj0x")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s2l1m"]
+atlas = ExtResource("1_ehdrq")
+region = Rect2(48, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6xg40"]
+atlas = ExtResource("1_ehdrq")
+region = Rect2(64, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7g4al"]
+atlas = ExtResource("1_ehdrq")
+region = Rect2(80, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3im6c"]
+atlas = ExtResource("1_ehdrq")
+region = Rect2(96, 128, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_57ssy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s2l1m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6xg40")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7g4al")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3im6c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7g4al")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6xg40")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dcqe7"]
 atlas = ExtResource("1_ehdrq")
@@ -64,10 +138,26 @@ limit_smoothed = true
 position_smoothing_speed = 10.0
 rotation_smoothing_speed = -1.44
 
+[node name="human" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(433, 54)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_m38hl")
+autoplay = "default"
+frame_progress = 0.182336
+
+[node name="yokai" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(249, 54)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_57ssy")
+autoplay = "default"
+frame_progress = 0.862121
+
 [node name="healthbar" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 position = Vector2(60, 54)
-scale = Vector2(6, 6)
+scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_lhfl2")
 autoplay = "default"
 

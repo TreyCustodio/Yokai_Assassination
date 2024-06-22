@@ -6,7 +6,11 @@ var human_count = 0
 var form = "samurai"
 var attackMode = "spam"
 var textMode = "medium"
-var position = Vector2(0,0)
+#Start the game with the correct position
+var position = Vector2(722, 372)#Vector2(2349, 531)
+var direction = 1
+var fullscreen = false
+var play_intro = false
 
 func changeForm(_form):
 	form = _form

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dw6c5rp02dtgh" path="res://palace.tscn" id="1_yh0ec"]
 [ext_resource type="Script" path="res://intro.gd" id="2_1pdnf"]
-[ext_resource type="AudioStream" uid="uid://2ug6f5r7buqm" path="res://bgm/wind.mp3" id="7_42qxr"]
+[ext_resource type="AudioStream" uid="uid://jn8djloh34rq" path="res://sfx/startup.wav" id="3_d87w7"]
 
 [node name="intro" instance=ExtResource("1_yh0ec")]
 script = ExtResource("2_1pdnf")
@@ -14,7 +14,8 @@ position = Vector2(1179, 468)
 position = Vector2(1330, 468)
 
 [node name="player" parent="." index="5"]
-position = Vector2(721, 373)
+position = Vector2(722, 373)
 
-[node name="bgm" parent="." index="6"]
-stream = ExtResource("7_42qxr")
+[node name="startfx" type="AudioStreamPlayer" parent="." index="12"]
+stream = ExtResource("3_d87w7")
+volume_db = 2.0

@@ -6,6 +6,7 @@ extends AnimatedSprite2D
 @onready var speech_2 = $speech_2
 @onready var speech_3 = $speech_3
 @onready var speech_4 = $speech_4
+@onready var speech_5 = $speech_5
 @onready var player = $".."
 @onready var textclose = $textclose
 
@@ -22,9 +23,18 @@ var timePerChar = 0.01
 var box_y = 0.0
 var textSound = 0 #0 -> default, 1-> evil guard, 2 -> kitsune
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
 
+func set_speed():
+	if Constants.textMode == "slow":
+		setCharTime(0.1)
+	elif Constants.textMode == "medium":
+		setCharTime(0.01)
+	elif Constants.textMode == "fast":
+		setCharTime(0)
+		
+func _ready():
+	set_speed()
+	
 func setCharTime(floatNum):
 	timePerChar = floatNum
 	
@@ -71,6 +81,8 @@ func playSound():
 		speech_3.play()
 	elif textSound == 3:
 		speech_4.play()
+	elif textSound == 4:
+		speech_5.play()
 		
 func setAnimations():
 	if ready_to_continue:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bvtrj66vvx6dx"]
+[gd_scene load_steps=21 format=3 uid="uid://bvtrj66vvx6dx"]
 
 [ext_resource type="Script" path="res://forest.gd" id="1_566ec"]
 [ext_resource type="Texture2D" uid="uid://c66jsmmwvk53b" path="res://tiles/oak_woods_v1.0/oak_woods_v1.0/background/background_layer_1.png" id="2_2pq26"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://cvljcssfhqgyh" path="res://scenes/camera.tscn" id="9_s6r56"]
 [ext_resource type="PackedScene" uid="uid://nsx7kt7cuhkb" path="res://fade.tscn" id="11_o8tcr"]
 [ext_resource type="AudioStream" uid="uid://dtckh70s2h7sg" path="res://bgm/2._Forest_Of_Dreams_M1.mp3" id="12_0fa3w"]
+[ext_resource type="PackedScene" uid="uid://batbugbtjsase" path="res://pause_menu.tscn" id="14_b72r2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f4iq0"]
 texture = ExtResource("5_bbxrb")
@@ -2390,9 +2391,14 @@ limit_smoothed = false
 
 [node name="bgm" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_0fa3w")
+autoplay = true
 
 [node name="transition" type="Area2D" parent="."]
 
 [node name="trigger" type="CollisionShape2D" parent="transition"]
 position = Vector2(2400, 293)
 shape = SubResource("RectangleShape2D_fy62b")
+
+[node name="pauseMenu" parent="." instance=ExtResource("14_b72r2")]
+top_level = true
+position = Vector2(70.0252, -196.583)
