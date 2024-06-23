@@ -138,21 +138,38 @@ limit_smoothed = true
 position_smoothing_speed = 10.0
 rotation_smoothing_speed = -1.44
 
+[node name="hud" type="Node2D" parent="."]
+
 [node name="human" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(433, 54)
+position = Vector2(420, 54)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_m38hl")
 autoplay = "default"
-frame_progress = 0.182336
+
+[node name="humanNumber" type="RichTextLabel" parent="human"]
+offset_left = 11.6667
+offset_top = -12.0
+offset_right = 32.6667
+offset_bottom = 11.0
+text = "0"
+scroll_active = false
 
 [node name="yokai" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(249, 54)
+position = Vector2(220, 54)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_57ssy")
 autoplay = "default"
-frame_progress = 0.862121
+
+[node name="yokaiNumber" type="RichTextLabel" parent="yokai"]
+offset_left = 10.6667
+offset_top = -12.0
+offset_right = 38.6667
+offset_bottom = 12.0
+text = "0
+"
+scroll_active = false
 
 [node name="healthbar" type="AnimatedSprite2D" parent="."]
 texture_filter = 1

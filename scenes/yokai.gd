@@ -12,8 +12,11 @@ extends CharacterBody2D
 @onready var speech = $speech
 @onready var detection = $detection
 @onready var detect_rect = $detection/detect_rect
+@onready var slashfx = $slashfx
 
 const SPEED = 300.0
+
+var despawn = false
 var vulnerable = true
 var maxHp = 3
 var hp = maxHp
@@ -53,6 +56,10 @@ func flip():
 		interact_icon.position.x = sprite.position.x - 16
 		hitzone.position.x = sprite.position.x
 		attackzone.position.x = sprite.position.x - 54
+
+##Abstract
+func die():
+	pass
 	
 func hit(damage):
 	if healthbar.visible == false:
@@ -66,7 +73,11 @@ func hit(damage):
 		
 	hp -= damage
 	if hp <= 0:
+		die()
 		dead = true
+		if Constants.hp < 5:
+			Constants.hp += 1
+		Constants.yokai_count += 1
 		healthbar.animation = "0"
 	else:
 		hurtfx.play()
@@ -156,6 +167,8 @@ func update_attack(delta):
 			sprite.play("default")
 		return
 	if sprite.frame == 5:
+		if not slashfx.playing:
+			slashfx.play()
 		if slash_rect.disabled:
 			slash_rect.disabled = false
 	elif sprite.frame == 8:

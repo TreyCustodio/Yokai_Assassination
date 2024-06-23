@@ -1,20 +1,23 @@
-[gd_scene load_steps=29 format=3 uid="uid://dw6c5rp02dtgh"]
+[gd_scene load_steps=32 format=3 uid="uid://dw6c5rp02dtgh"]
 
 [ext_resource type="Script" path="res://gate.gd" id="1_8ggp6"]
 [ext_resource type="PackedScene" uid="uid://cah3d68balwx8" path="res://scenes/sunset.tscn" id="2_wa8uv"]
 [ext_resource type="Texture2D" uid="uid://dffft5a1kob6w" path="res://tiles/The Sidescroller's Dungeon - Tileset [32x32]/ZIP FILE/Torch Sprite Sheet 32x64.png" id="4_masvf"]
 [ext_resource type="Texture2D" uid="uid://btas4mr3bt8au" path="res://tiles/The Sidescroller's Dungeon - Tileset [32x32]/ZIP FILE/The Sidescroller's Dungeon Tiles 32x32.png" id="5_ubcuv"]
+[ext_resource type="PackedScene" uid="uid://rqrk5g6qr6xn" path="res://scenes/faker.tscn" id="6_4wctr"]
+[ext_resource type="Script" path="res://scenes/enemy_4.gd" id="7_v6dmw"]
 [ext_resource type="PackedScene" uid="uid://csdpu2dir8nqb" path="res://scenes/speech_1.tscn" id="7_xnjjo"]
 [ext_resource type="Script" path="res://scenes/speech/speech_2.gd" id="8_dn3rc"]
 [ext_resource type="Script" path="res://scenes/speech/speech_3.gd" id="9_bpg8p"]
 [ext_resource type="PackedScene" uid="uid://cq1wmtfno5at2" path="res://scenes/enemydeath.tscn" id="9_k7lgm"]
 [ext_resource type="PackedScene" uid="uid://yk0tb8kmc1qt" path="res://scenes/fireballs.tscn" id="10_hnxdo"]
 [ext_resource type="Texture2D" uid="uid://6qlamnwyr8ry" path="res://tiles/invis.png" id="10_j0ov0"]
-[ext_resource type="PackedScene" uid="uid://cgbw0ebla4o83" path="res://scenes/npc.tscn" id="10_qlgaw"]
+[ext_resource type="Script" path="res://scenes/enemy_5.gd" id="10_se1g5"]
 [ext_resource type="PackedScene" uid="uid://o0yecji1qpwx" path="res://scenes/player.tscn" id="11_x1ltt"]
 [ext_resource type="PackedScene" uid="uid://cvljcssfhqgyh" path="res://scenes/camera.tscn" id="11_xbflk"]
 [ext_resource type="AudioStream" uid="uid://2ug6f5r7buqm" path="res://bgm/wind.mp3" id="12_avr5b"]
 [ext_resource type="PackedScene" uid="uid://nsx7kt7cuhkb" path="res://fade.tscn" id="15_gwc64"]
+[ext_resource type="PackedScene" uid="uid://d4mndajdytjoy" path="res://door.tscn" id="16_ja16w"]
 [ext_resource type="PackedScene" uid="uid://batbugbtjsase" path="res://pause_menu.tscn" id="16_sjou5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mtfhs"]
@@ -6646,19 +6649,19 @@ layer_0/tile_data = PackedInt32Array(1048551, 131072, 0, 1048552, 196608, 0, 104
 
 [node name="enemies" type="Node" parent="."]
 
-[node name="npc2" parent="enemies" instance=ExtResource("10_qlgaw")]
-texture_filter = 1
-position = Vector2(2190, 463)
+[node name="faker" parent="enemies" instance=ExtResource("6_4wctr")]
+position = Vector2(1880, 463)
+script = ExtResource("7_v6dmw")
 
-[node name="speech" parent="enemies/npc2" instance=ExtResource("7_xnjjo")]
-script = ExtResource("8_dn3rc")
-
-[node name="npc" parent="enemies" instance=ExtResource("10_qlgaw")]
-texture_filter = 1
-position = Vector2(1850, 463)
-
-[node name="speech" parent="enemies/npc" instance=ExtResource("7_xnjjo")]
+[node name="speech" parent="enemies/faker" instance=ExtResource("7_xnjjo")]
 script = ExtResource("9_bpg8p")
+
+[node name="faker2" parent="enemies" instance=ExtResource("6_4wctr")]
+position = Vector2(2199, 463)
+script = ExtResource("10_se1g5")
+
+[node name="speech" parent="enemies/faker2" instance=ExtResource("7_xnjjo")]
+script = ExtResource("8_dn3rc")
 
 [node name="player" parent="." instance=ExtResource("11_x1ltt")]
 position = Vector2(820, 457)
@@ -6682,6 +6685,8 @@ position = Vector2(33, 220)
 position = Vector2(473, -4)
 shape = SubResource("RectangleShape2D_hakni")
 
+[node name="door" parent="." instance=ExtResource("16_ja16w")]
+
 [node name="projectiles" type="Node" parent="."]
 
 [node name="fireballs" parent="projectiles" instance=ExtResource("10_hnxdo")]
@@ -6689,4 +6694,6 @@ shape = SubResource("RectangleShape2D_hakni")
 [node name="fade" parent="." instance=ExtResource("15_gwc64")]
 
 [node name="pauseMenu" parent="." instance=ExtResource("16_sjou5")]
+visible = false
+top_level = true
 position = Vector2(70.0252, -196.583)

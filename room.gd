@@ -28,6 +28,7 @@ var fade_timer = 0.0
 var death_timer = 0.0
 var reset_timer = 0.0
 var modulo = Color(1,1,1,1)
+var cutscene = false
 
 func displayText(text, sound=0):
 	player.displayText = text
@@ -86,6 +87,8 @@ func checkDead():
 		if n.dead:
 			enemies.remove_child(n)
 			enemydeath.play()
+		elif n.despawn:
+			enemies.remove_child(n)
 		else:
 			n.update_position(player.position.x)
 		
@@ -157,8 +160,14 @@ func freezeRoutine():
 	elif frozen:
 		unFreezeEnemies()
 
+##Abstract
+func playCutscene():
+	pass
 	
 func _process(delta):
+	if cutscene:
+		playCutscene()
+		
 	if player.dead:
 		deathRoutine(delta)
 		return
@@ -184,7 +193,9 @@ func _process(delta):
 				transition_routine()
 		else:
 			fade_timer += delta
-			
+	if not transitioning:
+		if not bgm.playing:
+			bgm.play()
 	handle_transition()
 	refreshFire(delta)
 	checkDead()

@@ -1,32 +1,19 @@
 Yokai Assassination
 
 TO DO:
-	Kitsune: Fire + bite
-	Enemies
 	Level Design
-	Pause Screen
 	Title Screen + Credits
+	Worst ending: All humans killed -> you become a yokai
+	Bad ending: Not all Yokai -> no final boss
+	Good ending: All Yokai -> final boss
+	Best ending: All Yokai and no humans
+	Boss mocks you
 	
 Some people get a kick out of spamming buttons.
 Others prefer to play it calm and hold the button down.
 
 Only health pickups from defeating Yokai
-Prioritze dodging with backstep and fireballs
-Bite attack kills yokai in one hit
 
-Better Pause screen
-PAUSE
-------
-Settings -> attack mode / text speed / remap controls
-Toggle Fullscreen
-Quit -> Progress will be lost, are you sure you want to quit?
-
-Enemies:
-	- Run at you until you're in their slash box,
-	- slash three times, 
-	- pause,
-	- put their sword away,
-	- repeat
 
 10 characters + 1 Shogun
 
@@ -40,9 +27,9 @@ Enemies:
 6 Second room neither:
 	- was he really a yokai...?
 	
-7 Wandering around, a yokai
+7 [Recognizes Kitsune] Wandering around, a yokai
 
-8 [Recognizes Kitsune] Wandering around, not a yokai
+8 Wandering around, not a yokai
 	
 2 shogun guards you need to sneak passed
 

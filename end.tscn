@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://cihfxp3b2a52g"]
+
+[ext_resource type="Script" path="res://end.gd" id="1_047jv"]
+[ext_resource type="PackedScene" uid="uid://nsx7kt7cuhkb" path="res://fade.tscn" id="1_oftw1"]
+[ext_resource type="Texture2D" uid="uid://bp6tt5a4clrno" path="res://sprites/thanks.png" id="3_gtbl8"]
+[ext_resource type="Texture2D" uid="uid://bbcdrs7va7jy2" path="res://sprites/end_1.png" id="4_jxii8"]
+[ext_resource type="AudioStream" uid="uid://1vw4xch6tpbt" path="res://sfx/menuselect.wav" id="5_6h5ld"]
+[ext_resource type="AudioStream" uid="uid://dssk6llhrk5c4" path="res://sfx/end.wav" id="6_hy15g"]
+[ext_resource type="AudioStream" uid="uid://c31q0e6grxmfu" path="res://sfx/thanks.wav" id="7_tnvn2"]
+
+[node name="end" type="Node2D"]
+script = ExtResource("1_047jv")
+
+[node name="screen_manager" parent="." instance=ExtResource("1_oftw1")]
+
+[node name="thanks" type="Sprite2D" parent="screen_manager"]
+visible = false
+texture_filter = 1
+position = Vector2(587, 515)
+scale = Vector2(3, 3)
+texture = ExtResource("3_gtbl8")
+
+[node name="kill" type="Sprite2D" parent="screen_manager"]
+visible = false
+texture_filter = 1
+position = Vector2(706, 300)
+scale = Vector2(3, 3)
+texture = ExtResource("4_jxii8")
+
+[node name="samurai" type="RichTextLabel" parent="screen_manager/kill"]
+offset_left = 24.3333
+offset_top = -84.3334
+offset_right = 64.3333
+offset_bottom = -44.3334
+scale = Vector2(3, 3)
+
+[node name="yokai" type="RichTextLabel" parent="screen_manager/kill"]
+texture_filter = 1
+offset_left = 20.6667
+offset_top = -24.0
+offset_right = 55.6667
+offset_bottom = 6.99999
+scale = Vector2(3, 3)
+scroll_active = false
+autowrap_mode = 0
+text_direction = 1
+
+[node name="slash" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_6h5ld")
+
+[node name="sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_hy15g")
+pitch_scale = 0.74
+
+[node name="thanks" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_tnvn2")

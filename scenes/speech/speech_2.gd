@@ -6,7 +6,7 @@ func _ready():
 	pass # Replace with function body.
 
 func get_text():
-	return "Shouts out to my boy\nColin Bridges!|This man is the KING\nof creative drawing!"
+	return "There are Yokai inside\nthe palace, Haruko-sama!|&Please help us!"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

@@ -6,7 +6,7 @@ func _ready():
 	pass # Replace with function body.
 
 func get_text():
-	return "&This is Yokai Assassination!|In this game, you get to\nmorph into a wise Kitsune!|Use your intuition to detect\nevil spirits, and slay them!"
+	return "&Ah! Haruko-sama!|&We've been expecting you!"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

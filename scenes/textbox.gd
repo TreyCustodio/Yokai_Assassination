@@ -7,6 +7,9 @@ extends AnimatedSprite2D
 @onready var speech_3 = $speech_3
 @onready var speech_4 = $speech_4
 @onready var speech_5 = $speech_5
+@onready var haruko_speech = $haruko_speech
+@onready var kitsune_speech = $kitsune_speech
+
 @onready var player = $".."
 @onready var textclose = $textclose
 
@@ -83,6 +86,10 @@ func playSound():
 		speech_4.play()
 	elif textSound == 4:
 		speech_5.play()
+	elif textSound == 5:
+		haruko_speech.play()
+	elif textSound == 6:
+		kitsune_speech.play()
 		
 func setAnimations():
 	if ready_to_continue:

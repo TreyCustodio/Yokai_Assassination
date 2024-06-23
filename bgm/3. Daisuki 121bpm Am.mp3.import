@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://4x7bl6dmaw45"
+path="res://.godot/imported/3. Daisuki 121bpm Am.mp3-bb786b0339c7d717b37b7c7085eda44d.mp3str"
+
+[deps]
+
+source_file="res://bgm/3. Daisuki 121bpm Am.mp3"
+dest_files=["res://.godot/imported/3. Daisuki 121bpm Am.mp3-bb786b0339c7d717b37b7c7085eda44d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

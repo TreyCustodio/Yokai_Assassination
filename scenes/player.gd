@@ -9,6 +9,12 @@ extends CharacterBody2D
 @onready var camera_2d = $Camera2D
 @onready var healthbar = $Camera2D/healthbar
 @onready var health_number = $Camera2D/healthbar/healthNumber
+@onready var yokai = $Camera2D/yokai
+@onready var yokai_number = $Camera2D/yokai/yokaiNumber
+@onready var human = $Camera2D/human
+@onready var human_number = $Camera2D/human/humanNumber
+
+
 @onready var pause_menu = $"../pauseMenu"
 
 #Textbox
@@ -33,6 +39,7 @@ extends CharacterBody2D
 @onready var bitefx = $kitsune/bitefx
 @onready var hurtfx = $hurtfx
 @onready var deathfx = $deathfx
+
 
 #Areas
 @onready var weapons = $weapons
@@ -142,8 +149,7 @@ func hit():
 		invincible = true
 		hurtfx.play()
 		Constants.hp -= 1
-		hp -=1
-		if hp <= 0:
+		if Constants.hp <= 0:
 			freeze()
 			resetStates()
 			disable_rects()
@@ -262,6 +268,9 @@ func setFullscreen():
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		Constants.fullscreen = false
 		fullscreen = false
+		healthbar.scale = Vector2(3,3)
+		yokai.scale = Vector2(3,3)
+		human.scale = Vector2(3,3)
 	#Window -> Fullscreen
 	else:
 		#camera_2d.position.x -= 250
@@ -269,11 +278,16 @@ func setFullscreen():
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 		Constants.fullscreen = true
 		fullscreen = true
+		healthbar.scale = Vector2(6,6)
+		yokai.scale = Vector2(6,6)
+		human.scale = Vector2(6,6)
 	update_camera()
 		
 func setHp():
-	var number = str(hp)
+	var number = str(Constants.hp)
 	health_number.text = "	" + number
+	yokai_number.text = str(Constants.yokai_count)
+	human_number.text = str(Constants.human_count)
 
 func startJump():
 	if form == "samurai":
@@ -340,9 +354,12 @@ func unsetInteractable():
 	interactable = false
 
 func startSpeech(sound = 0):
+	textbox.position = Vector2(position.x-16, position.y-152)
 	interact_rect.disabled = true
 	interaction.hide_icon()
 	healthbar.visible = false
+	yokai.visible = false
+	human.visible = false
 	text.play()
 	textbox.textSound = sound
 	textbox.setText(displayText)
@@ -360,6 +377,8 @@ func stopSpeech():
 	interact_rect.disabled = false
 	interaction.show_icon()
 	healthbar.visible = true
+	yokai.visible = true
+	human.visible = true
 	speaking = false
 	keyUnlock()
 
@@ -372,7 +391,7 @@ func shootFire():
 	stop()
 	
 func pauseGame():
-	pause_menu.position = Vector2(position.x-20, position.y - 40)
+	
 	pause_menu.pauseGame()
 	#reset states
 	slashing = false
@@ -432,12 +451,6 @@ func handleEvents(frame):
 				return
 		
 		if not key_lock:
-			#Hurt/Heal for debug
-			#if Input.is_action_just_pressed("hurt"):
-				#hp -= 1
-			#if Input.is_action_just_pressed("heal"):
-				#hp += 1
-			
 			if not jumping and not airslashing and not backstepping:
 				#Change form
 				if Input.is_action_just_pressed("shift"):
@@ -531,9 +544,20 @@ func handleEvents(frame):
 func _physics_process(delta):
 	##Pause Routine
 	if pause:
+		if speaking:
+			if textbox.animation == "loop":
+				return
+			elif textbox.get_frame() == 5:
+				textbox.animation = "loop"
+				textbox.setDisplay()
+			return
 		if Input.is_action_just_pressed("pause"):
 			pause_menu.unPause()
 			unPause()
+		elif pause_menu.inMain and Input.is_action_just_pressed("slash"):
+			pause_menu.unPause()
+			unPause()
+		
 		
 		#pauseRoutine()
 		return
@@ -561,7 +585,7 @@ func _physics_process(delta):
 			
 	###Updating states
 	##set healthbar animation
-	if hp <= int(ceil(maxHp/3.0)):
+	if Constants.hp <= int(ceil(maxHp/3.0)):
 		low = true
 	else:
 		low = false
@@ -615,14 +639,21 @@ func _physics_process(delta):
 	update_camera()
 
 func update_camera():
+	pause_menu.position = Vector2(position.x-20, position.y - 40)
 	if fullscreen:
 		camera_2d.position.x = position.x - 660
 		camera_2d.position.y = position.y - (400)
+		healthbar.scale = Vector2(6,6)
+		yokai.scale = Vector2(6,6)
+		human.scale = Vector2(6,6)
 	else:
 		#camera_2d.position.x -= 250
 		#camera_2d.position.y -= 150
 		camera_2d.position.x = position.x - 400
 		camera_2d.position.y = position.y - 250
+		healthbar.scale = Vector2(3,3)
+		yokai.scale = Vector2(3,3)
+		human.scale = Vector2(3,3)
 		
 
 

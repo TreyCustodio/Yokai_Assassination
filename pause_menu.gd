@@ -9,6 +9,8 @@ extends AnimatedSprite2D
 @onready var menu_select = $menuSelect
 ##Pause states
 var pause = false
+var opening = false
+var closing = false
 var highlight = Vector2(0,0)
 var inMain = true
 var inSettings = false
@@ -16,28 +18,64 @@ var selectingMode = false
 var selectingText = false
 var attackMode = Constants.attackMode
 var textMode = Constants.textMode
+var quit_prompt = false
+var modulo = Color(1,1,1,0)
 
 func pauseGame():
+	opening = true
 	frame = 7
-	pause = true
+	#pause = true
 	attackMode = Constants.attackMode
 	textMode = Constants.textMode
 	pause_start.play()
 	visible = true
 
 func unPause():
-	pause = false
+	#pause = false
 	pause_close.play()
+	closing = true
 	inMain = true
 	inSettings = false
 	selectingMode = false
 	selectingText = false
 	frame = 7
 	highlight.y = 0
-	visible = false
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	if opening:
+		modulo.a += 0.1
+		if modulo.a >= 1:
+			modulo.a = 1
+			modulate = modulo
+			pause = true
+			opening = false
+		else:
+			modulate = modulo
 	
+	elif closing:
+		modulo.a -= 0.1
+		if modulo.a <= 0:
+			modulo.a = 0
+			modulate = modulo
+			pause = false
+			closing = false
+			visible = false
+		else:
+			modulate = modulo
+		return
+	if pause:
+		pauseRoutine()
+		
 ###Pause Routine
 func pauseRoutine():
+	if quit_prompt:
+		if Input.is_action_just_pressed("FULLSCREEN"):
+			get_tree().quit()
+		elif not player.speaking:
+			quit_prompt = false
+		return
+			
 	if inMain:
 		if Input.is_action_just_pressed("jump"):
 			menu_select.play()
@@ -49,8 +87,11 @@ func pauseRoutine():
 				#toggle fullscreen
 				player.setFullscreen()
 			elif highlight.y == 2:
-				#Quit game
-				pass
+				if not quit_prompt:
+					quit_prompt = true
+					player.displayText = "Progress will be lost.\nPress ESCAPE to confirm."
+					player.startSpeech(4)
+					return
 		elif highlight.y == 0:
 			if Input.is_action_just_pressed("down"):
 				menu_cursor.play()
@@ -191,7 +232,4 @@ func _ready():
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	if pause:
-		pauseRoutine()
+

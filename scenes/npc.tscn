@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=3 uid="uid://cgbw0ebla4o83"]
+[gd_scene load_steps=80 format=3 uid="uid://cgbw0ebla4o83"]
 
 [ext_resource type="Script" path="res://scenes/npc.gd" id="1_5d6s0"]
 [ext_resource type="Texture2D" uid="uid://rek5lbyaa5r2" path="res://sprites/npc_idle.png" id="2_sflnt"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scenes/hitzone.gd" id="4_h2gr4"]
 [ext_resource type="Texture2D" uid="uid://c2vsfr8cj5kqu" path="res://sprites/npc_slash.png" id="4_s2ul0"]
 [ext_resource type="Texture2D" uid="uid://2crcfvimoj6j" path="res://sprites/z.png" id="5_2otas"]
+[ext_resource type="PackedScene" uid="uid://cleu18nwam41s" path="res://slashfx.tscn" id="8_p4lev"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e6tsp"]
 atlas = ExtResource("2_sflnt")
@@ -549,6 +550,9 @@ shape = SubResource("RectangleShape2D_d7g8q")
 [node name="hurtfx" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_3b2ol")
 volume_db = 2.667
+
+[node name="slashfx" parent="." instance=ExtResource("8_p4lev")]
+position = Vector2(608.176, 483.916)
 
 [node name="interactIcon" type="AnimatedSprite2D" parent="."]
 visible = false

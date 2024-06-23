@@ -75,6 +75,7 @@ animations = [{
 }]
 
 [node name="pauseMenu" type="AnimatedSprite2D"]
+modulate = Color(1, 1, 1, 0)
 z_as_relative = false
 texture_filter = 1
 position = Vector2(-34, 0)

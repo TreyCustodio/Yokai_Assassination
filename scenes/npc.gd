@@ -10,8 +10,11 @@ extends CharacterBody2D
 @onready var slash_rect = $attackzone/slash_rect
 @onready var slash_detect = $attackzone/slash_detect
 @onready var speech = $speech
+@onready var slashfx = $slashfx
+
 
 const SPEED = 300.0
+var despawn = false
 var vulnerable = true
 var maxHp = 3
 var hp = maxHp
@@ -27,6 +30,9 @@ var direction = -1
 var waiting = false
 var frozen = false
 
+func die():
+	pass
+	
 func freeze():
 	frozen = true
 	if fighting:
@@ -63,6 +69,7 @@ func hit(damage):
 	hp -= damage
 	if hp <= 0:
 		dead = true
+		Constants.human_count += 1
 		healthbar.animation = "0"
 	else:
 		hurtfx.play()
@@ -85,6 +92,7 @@ func getText():
 	return text
 
 func slash():
+	slashfx.play()
 	slashing = true
 	if direction == -1:
 		sprite.offset.x -= 32
@@ -144,6 +152,8 @@ func update_attack(delta):
 			sprite.play("default")
 		return
 	if sprite.frame == 5:
+		if not slashfx.playing:
+			slashfx.play()
 		if slash_rect.disabled:
 			slash_rect.disabled = false
 	elif sprite.frame == 8:

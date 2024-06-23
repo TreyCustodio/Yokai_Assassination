@@ -1,4 +1,4 @@
-[gd_scene load_steps=217 format=3 uid="uid://o0yecji1qpwx"]
+[gd_scene load_steps=219 format=3 uid="uid://o0yecji1qpwx"]
 
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_q1gbx"]
 [ext_resource type="Texture2D" uid="uid://dicsb88julmd2" path="res://sprites/samurai_idle.png" id="2_htcw4"]
@@ -27,6 +27,8 @@
 [ext_resource type="AudioStream" uid="uid://b78ndtu2tuakk" path="res://sfx/speech_3.wav" id="17_4bf5e"]
 [ext_resource type="AudioStream" uid="uid://86fhwl2yu0ab" path="res://sfx/speech_4.wav" id="18_b4jjo"]
 [ext_resource type="AudioStream" uid="uid://bbfi25kmtk5e6" path="res://sfx/speech_5.wav" id="25_oq5e0"]
+[ext_resource type="AudioStream" uid="uid://urn3oq1d5j7w" path="res://sfx/kitsune_speech.wav" id="26_4xey2"]
+[ext_resource type="AudioStream" uid="uid://d1gjm52el7t80" path="res://sfx/haruko_speech.wav" id="26_t18jd"]
 [ext_resource type="AudioStream" uid="uid://rhqewyfyganu" path="res://sfx/death.wav" id="29_vaqsc"]
 [ext_resource type="AudioStream" uid="uid://b56cj8ntmgfkw" path="res://sfx/change_2.wav" id="37_f5oeu"]
 [ext_resource type="AudioStream" uid="uid://nlre7h0uotqn" path="res://sfx/change.wav" id="38_h7a3j"]
@@ -1463,6 +1465,8 @@ debug_color = Color(0.832535, 0.384743, 0.18897, 0.42)
 
 [node name="textbox" type="AnimatedSprite2D" parent="."]
 visible = false
+top_level = true
+z_index = 1
 texture_filter = 1
 position = Vector2(-12, -152)
 scale = Vector2(3.04918, 2.5)
@@ -1497,6 +1501,13 @@ stream = ExtResource("18_b4jjo")
 
 [node name="speech_5" type="AudioStreamPlayer2D" parent="textbox"]
 stream = ExtResource("25_oq5e0")
+
+[node name="kitsune_speech" type="AudioStreamPlayer2D" parent="textbox"]
+scale = Vector2(1, 1)
+stream = ExtResource("26_4xey2")
+
+[node name="haruko_speech" type="AudioStreamPlayer2D" parent="textbox"]
+stream = ExtResource("26_t18jd")
 
 [node name="weapons" type="Area2D" parent="." groups=["weapon"]]
 position = Vector2(-2, 0.5)

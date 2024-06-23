@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cleu18nwam41s"]
+
+[ext_resource type="AudioStream" uid="uid://cexwpxmjpbvut" path="res://sfx/slash.wav" id="1_ffjtk"]
+
+[node name="slashfx" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_ffjtk")

@@ -7,10 +7,41 @@ var form = "samurai"
 var attackMode = "spam"
 var textMode = "medium"
 #Start the game with the correct position
-var position = Vector2(722, 372)#Vector2(2349, 531)
+var position = Vector2(722, 372)
 var direction = 1
 var fullscreen = false
-var play_intro = false
+var play_intro = true
+var forest_info = true
+var castle_info = true
+
+##Forest
+var enemy_1 = true
+var enemy_2 = true
+var enemy_3 = true
+##Gate
+var enemy_4 = true
+var enemy_5 = true
+##Castle
+#Pair 1
+var enemy_6 = true #human, "Haruko-sama!"
+var enemy_7 = true #yokai, "Haruko!"
+
+#Pair 2
+var enemy_8 = true #human
+var enemy_9 = true #human
+
+#Indiv
+var enemy_10 = true #human, "Man, I'm drowsy... You smell like someone I know..."
+#Indiv
+var enemy_11 = true #yokai, "you're carrying the aroma of a fox with you!"
+
+var enemy_12 = true
+var enemy_13 = true
+
+
+
+
+
 
 func changeForm(_form):
 	form = _form

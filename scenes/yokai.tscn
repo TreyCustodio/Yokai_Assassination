@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=3 uid="uid://c8n4atxyjvfsi"]
+[gd_scene load_steps=80 format=3 uid="uid://c8n4atxyjvfsi"]
 
 [ext_resource type="Script" path="res://scenes/yokai.gd" id="1_7eed1"]
 [ext_resource type="Texture2D" uid="uid://dejjceenwjfxr" path="res://sprites/yokai_idle.png" id="2_ohb2u"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://b2ne24ua2mg0h" path="res://sprites/enemyhp.png" id="5_24iag"]
 [ext_resource type="AudioStream" uid="uid://gx1lhcn5xudk" path="res://sfx/enemyhurt.wav" id="7_7bmcw"]
 [ext_resource type="Texture2D" uid="uid://2crcfvimoj6j" path="res://sprites/z.png" id="8_pcse1"]
+[ext_resource type="PackedScene" uid="uid://cleu18nwam41s" path="res://slashfx.tscn" id="8_x4avg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rfqob"]
 atlas = ExtResource("2_ohb2u")
@@ -579,6 +580,8 @@ debug_color = Color(0.976471, 0, 0, 0.419608)
 position = Vector2(-14, 0)
 shape = SubResource("RectangleShape2D_31iqj")
 debug_color = Color(0.137255, 0.45098, 0.137255, 0.682353)
+
+[node name="slashfx" parent="." instance=ExtResource("8_x4avg")]
 
 [connection signal="area_entered" from="hitzone" to="." method="_on_hitzone_area_entered"]
 [connection signal="timeout" from="iframe_timer" to="." method="_on_iframe_timer_timeout"]
