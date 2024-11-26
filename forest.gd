@@ -1,6 +1,7 @@
 extends "res://room.gd"
-
+"res://rooms/palace.tscn"
 var changing = false
+
 func transition_routine():
 	trans("palace.tscn", Vector2(820, 457))
 

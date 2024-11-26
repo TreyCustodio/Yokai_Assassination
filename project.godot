@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="first"
-run/main_scene="res://intro.tscn"
+config/name="Yokai"
+run/main_scene="res://rooms/intro.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -104,4 +104,5 @@ shift={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)

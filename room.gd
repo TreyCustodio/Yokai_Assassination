@@ -37,8 +37,8 @@ func displayText(text, sound=0):
 func trans(scene, pos = Vector2(0,0)):
 	Constants.position = pos
 	Constants.direction = player.direction
-	var str = "res://" + scene
-	get_tree().change_scene_to_file(scene)
+	var str = "res://rooms/" + scene
+	get_tree().change_scene_to_file(str)
 
 
 ##Calls trans to transition to a specific scene and position.

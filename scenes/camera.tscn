@@ -1,6 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://cvljcssfhqgyh"]
+[gd_scene load_steps=18 format=3 uid="uid://cvljcssfhqgyh"]
 
 [ext_resource type="Texture2D" uid="uid://cu2bppawe7xnu" path="res://sprites/bar.png" id="1_ehdrq"]
+[ext_resource type="Texture2D" uid="uid://btadqxygfomgo" path="res://sprites/keys/key_left.png" id="1_otyit"]
+[ext_resource type="Texture2D" uid="uid://b24xiwtu6uig8" path="res://sprites/keys/key_right.png" id="2_nebe4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p44vh"]
 atlas = ExtResource("1_ehdrq")
@@ -139,6 +141,27 @@ position_smoothing_speed = 10.0
 rotation_smoothing_speed = -1.44
 
 [node name="hud" type="Node2D" parent="."]
+
+[node name="right" type="TouchScreenButton" parent="."]
+texture_filter = 1
+position = Vector2(174, 321)
+scale = Vector2(6.10526, 5.875)
+texture_normal = ExtResource("2_nebe4")
+
+[node name="jump" type="TouchScreenButton" parent="."]
+position = Vector2(667, 307)
+
+[node name="attack" type="TouchScreenButton" parent="."]
+position = Vector2(712, 384)
+
+[node name="special" type="TouchScreenButton" parent="."]
+position = Vector2(616, 389)
+
+[node name="left" type="TouchScreenButton" parent="."]
+texture_filter = 1
+position = Vector2(32, 321)
+scale = Vector2(6.10526, 5.875)
+texture_normal = ExtResource("1_otyit")
 
 [node name="human" type="AnimatedSprite2D" parent="."]
 texture_filter = 1

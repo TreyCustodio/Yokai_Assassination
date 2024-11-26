@@ -7,7 +7,7 @@ var form = "samurai"
 var attackMode = "spam"
 var textMode = "medium"
 #Start the game with the correct position
-var position = Vector2(722, 372)
+var position = Vector2(2000,372)#Vector2(722, 372)
 var direction = 1
 var fullscreen = false
 var play_intro = true
