@@ -1,4 +1,7 @@
 #  Yokai Assassination
+An action-packed detective game where you eliminate ghostly imposters based on Japanese folklore.<br>
+Don't get tricked into killing your friends by the evil spirits!<br>
+
 This game is a work in progress.<br>
 I am currently modifying the engine to operate on mobile devices.<br>
 
